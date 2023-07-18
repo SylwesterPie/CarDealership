@@ -10,15 +10,32 @@ import org.hibernate.query.Query;
 import pl.zajavka.business.dao.CarDAO;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
 import pl.zajavka.infrastructure.database.entity.CarToBuyEntity;
+import pl.zajavka.infrastructure.database.entity.CarToServiceEntity;
 
 import java.util.Objects;
 import java.util.Optional;
 
 public class CarRepository implements CarDAO {
     @Override
+    public CarToServiceEntity saveCarToService(CarToServiceEntity entity) {
+        try (Session session = HibernateUtil.getSession()) {
+            if (Objects.isNull(session)) {
+                throw new RuntimeException("Session is null");
+            }
+
+            Transaction transaction = session.beginTransaction();
+
+            session.persist(entity);
+
+            transaction.commit();
+            return entity;
+        }
+    }
+
+    @Override
     public Optional<CarToBuyEntity> findCarToBuyByVin(String vin) {
         try (Session session = HibernateUtil.getSession()) {
-            if(Objects.isNull(session)) {
+            if (Objects.isNull(session)) {
                 throw new RuntimeException("Session is null");
             }
 
@@ -34,6 +51,34 @@ public class CarRepository implements CarDAO {
             query.setParameter(parameter, vin);
             try {
                 CarToBuyEntity result = query.getSingleResult();
+                transaction.commit();
+                return Optional.of(result);
+            } catch (Throwable ex) {
+                transaction.commit();
+                return Optional.empty();
+            }
+        }
+    }
+
+    @Override
+    public Optional<CarToServiceEntity> findCarToServiceByVin(String vin) {
+        try (Session session = HibernateUtil.getSession()) {
+            if (Objects.isNull(session)) {
+                throw new RuntimeException("Session is null");
+            }
+
+            Transaction transaction = session.beginTransaction();
+
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<CarToServiceEntity> criteriaQuery = criteriaBuilder.createQuery(CarToServiceEntity.class);
+            Root<CarToServiceEntity> root = criteriaQuery.from(CarToServiceEntity.class);
+            ParameterExpression<String> parameter = criteriaBuilder.parameter(String.class);
+            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("vin"), parameter));
+
+            Query<CarToServiceEntity> query = session.createQuery(criteriaQuery);
+            query.setParameter(parameter, vin);
+            try {
+                CarToServiceEntity result = query.getSingleResult();
                 transaction.commit();
                 return Optional.of(result);
             } catch (Throwable ex) {

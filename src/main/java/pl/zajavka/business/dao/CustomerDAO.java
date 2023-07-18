@@ -8,4 +8,8 @@ public interface CustomerDAO {
     Optional<CustomerEntity> findCustomerByEmail(String email);
 
     void issueInvoice(CustomerEntity customer);
+
+    void saveServiceRequest(CustomerEntity customer);
+
+    CustomerEntity saveCustomer(CustomerEntity entity);
 }

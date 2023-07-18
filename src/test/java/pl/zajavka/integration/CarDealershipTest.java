@@ -2,10 +2,7 @@ package pl.zajavka.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
-import pl.zajavka.business.CarPurchaseService;
-import pl.zajavka.business.CarService;
-import pl.zajavka.business.CustomerService;
-import pl.zajavka.business.SalesmanService;
+import pl.zajavka.business.*;
 import pl.zajavka.business.management.CarDealershipManagementService;
 import pl.zajavka.business.management.FileDataPreparationService;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
@@ -21,26 +18,38 @@ public class CarDealershipTest {
 
     private CarDealershipManagementService carDealershipManagementService;
     private CarPurchaseService carPurchaseService;
+    private CarServiceRequestService carServiceRequestService;
 
+    @AfterAll
+    static void afterAll() {
+        HibernateUtil.closeSessionFactory();
+    }
 
     @BeforeEach
     void beforeEach() {
+        CustomerRepository customerDAO = new CustomerRepository();
+        SalesmanRepository salesmanDAO = new SalesmanRepository();
+        CarRepository carDAO = new CarRepository();
+        CarService carService = new CarService(carDAO);
+        CustomerService customerService = new CustomerService(customerDAO);
+        SalesmanService salesmanService = new SalesmanService(salesmanDAO);
         FileDataPreparationService fileDataPreparationService = new FileDataPreparationService();
+
         carDealershipManagementService = new CarDealershipManagementService(
                 new CarDealershipManagementRepository(),
                 fileDataPreparationService
         );
         carPurchaseService = new CarPurchaseService(
                 fileDataPreparationService,
-                new CustomerService(new CustomerRepository()),
-                new SalesmanService(new SalesmanRepository()),
-                new CarService(new CarRepository())
+                customerService,
+                salesmanService,
+                carService
         );
-    }
-
-    @AfterAll
-    static void afterAll() {
-        HibernateUtil.closeSessionFactory();
+        carServiceRequestService = new CarServiceRequestService(
+                fileDataPreparationService,
+                carService,
+                customerService
+        );
     }
 
     @Test
@@ -68,6 +77,7 @@ public class CarDealershipTest {
     @Order(4)
     void makeServiceRequest() {
         log.info("### RUNNING ORDER 4");
+        carServiceRequestService.requestService();
 
     }
 
