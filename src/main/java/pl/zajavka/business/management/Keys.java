@@ -6,7 +6,8 @@ public interface Keys {
         INIT,
         BUY_FIRST_TIME,
         BUY_AGAIN,
-        SERVICE_REQUEST
+        SERVICE_REQUEST,
+        DO_THE_SERVICE
     }
 
     enum Entity {
@@ -19,6 +20,7 @@ public interface Keys {
     }
 
     enum Constants {
-        WHAT
+        WHAT,
+        FINISHED
     }
 }
