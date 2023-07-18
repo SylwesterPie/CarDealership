@@ -1,6 +1,5 @@
 package pl.zajavka.domain;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Value;
 import lombok.With;
