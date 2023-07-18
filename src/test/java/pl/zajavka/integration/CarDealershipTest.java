@@ -2,12 +2,30 @@ package pl.zajavka.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import pl.zajavka.business.management.CarDealershipManagementService;
+import pl.zajavka.business.management.FileDataPreparationService;
+import pl.zajavka.business.management.InputDataCache;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
+import pl.zajavka.infrastructure.database.repository.CarDealershipManagementRepository;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CarDealershipTest {
+
+    private CarDealershipManagementService carDealershipManagementService;
+
+
+    @BeforeEach
+    void beforeEach() {
+        carDealershipManagementService = new CarDealershipManagementService(
+                new CarDealershipManagementRepository(),
+                new FileDataPreparationService()
+        );
+    }
 
     @AfterAll
     static void afterAll() {
@@ -18,14 +36,14 @@ public class CarDealershipTest {
     @Order(1)
     void purge() {
         log.info("### RUNNING ORDER 1");
-
+        carDealershipManagementService.purge();
     }
 
     @Test
     @Order(2)
     void init() {
         log.info("### RUNNING ORDER 2");
-
+        carDealershipManagementService.init();
     }
 
     @Test

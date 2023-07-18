@@ -26,8 +26,7 @@ public class HibernateUtil {
             Map.entry(Environment.CONNECTION_PROVIDER, "org.hibernate.hikaricp.internal.HikariCPConnectionProvider"),
             Map.entry(Environment.HBM2DDL_AUTO, "validate"),
             Map.entry(Environment.SHOW_SQL, true),
-            Map.entry(Environment.FORMAT_SQL, false),
-            Map.entry(Environment.CHECK_NULLABILITY, true)
+            Map.entry(Environment.FORMAT_SQL, false)
     );
 
 
@@ -50,7 +49,6 @@ public class HibernateUtil {
 
             Metadata metadata = new MetadataSources(serviceRegistry)
                     .addAnnotatedClass(AddressEntity.class)
-                    .addAnnotatedClass(CarHistoryEntity.class)
                     .addAnnotatedClass(CarServiceRequestEntity.class)
                     .addAnnotatedClass(CarToBuyEntity.class)
                     .addAnnotatedClass(CarToServiceEntity.class)
