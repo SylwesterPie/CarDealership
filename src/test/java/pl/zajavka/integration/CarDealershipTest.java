@@ -17,6 +17,7 @@ public class CarDealershipTest {
     private CarPurchaseService carPurchaseService;
     private CarServiceRequestService carServiceRequestService;
     private CarServiceProcessingService carServiceProcessingService;
+    private CarService carService;
 
     @AfterAll
     static void afterAll() {
@@ -28,7 +29,6 @@ public class CarDealershipTest {
         CustomerRepository customerDAO = new CustomerRepository();
         SalesmanRepository salesmanDAO = new SalesmanRepository();
         CarRepository carDAO = new CarRepository();
-        CarService carService = new CarService(carDAO);
         CustomerService customerService = new CustomerService(customerDAO);
         SalesmanService salesmanService = new SalesmanService(salesmanDAO);
         FileDataPreparationService fileDataPreparationService = new FileDataPreparationService();
@@ -41,6 +41,9 @@ public class CarDealershipTest {
         ServiceRequestProcessingRepository serviceRequestProcessingDAO = new ServiceRequestProcessingRepository();
         CarServiceRequestRepository carServiceRequestDAO = new CarServiceRequestRepository();
 
+        carService = new CarService(
+                carDAO
+        );
         carDealershipManagementService = new CarDealershipManagementService(
                 new CarDealershipManagementRepository(),
                 fileDataPreparationService
@@ -108,6 +111,7 @@ public class CarDealershipTest {
     @Order(6)
     void printCarHistory() {
         log.info("### RUNNING ORDER 6");
-
+        carService.printCarHistory("2C3CDYAG2DH731952");
+        carService.printCarHistory("1GCEC19X27Z109567");
     }
 }

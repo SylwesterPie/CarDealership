@@ -1,5 +1,6 @@
 package pl.zajavka.business.dao;
 
+import pl.zajavka.infrastructure.database.entity.CarHistoryEntity;
 import pl.zajavka.infrastructure.database.entity.CarToBuyEntity;
 import pl.zajavka.infrastructure.database.entity.CarToServiceEntity;
 
@@ -11,4 +12,6 @@ public interface CarDAO {
     Optional<CarToBuyEntity> findCarToBuyByVin(String vin);
 
     Optional<CarToServiceEntity> findCarToServiceByVin(String vin);
+
+    CarHistoryEntity findCarHistoryByVin(String vin);
 }
