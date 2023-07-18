@@ -8,7 +8,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.stat.Statistics;
 import pl.zajavka.infrastructure.database.entity.*;
 
 import java.util.Map;
@@ -85,9 +84,5 @@ public class HibernateUtil {
             log.error("Exception while opening session", e);
         }
         return null;
-    }
-
-    public static Statistics getStatistic() {
-        return sessionFactory.getStatistics();
     }
 }

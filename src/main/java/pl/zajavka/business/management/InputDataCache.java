@@ -33,7 +33,7 @@ public class InputDataCache {
                 .filter(line -> !line.isBlank())
                 .toList();
 
-        Map<String, List<String>> result = lines.stream()
+        return lines.stream()
                 .collect(Collectors.groupingBy(
                         line -> line.split("->")[0].trim(),
                         Collectors.mapping(
@@ -41,8 +41,6 @@ public class InputDataCache {
                                 Collectors.toList()
                         )
                 ));
-
-        return result;
     }
 
     public static <T> List<T> getInputData(
@@ -55,6 +53,18 @@ public class InputDataCache {
                 .orElse(List.of())
                 .stream()
                 .filter(line -> line.startsWith(entity.toString()))
+                .map(mapper)
+                .toList();
+    }
+
+    public static <T> List<T> getInputData(
+            final Keys.InputDataGroup inputDataGroup,
+            final Function<String, T> mapper
+            ) {
+
+        return Optional.ofNullable(inputData.get(inputDataGroup.toString()))
+                .orElse(List.of())
+                .stream()
                 .map(mapper)
                 .toList();
     }

@@ -2,14 +2,17 @@ package pl.zajavka.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import pl.zajavka.business.CarPurchaseService;
+import pl.zajavka.business.CarService;
+import pl.zajavka.business.CustomerService;
+import pl.zajavka.business.SalesmanService;
 import pl.zajavka.business.management.CarDealershipManagementService;
 import pl.zajavka.business.management.FileDataPreparationService;
-import pl.zajavka.business.management.InputDataCache;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
 import pl.zajavka.infrastructure.database.repository.CarDealershipManagementRepository;
-
-import java.util.List;
-import java.util.Map;
+import pl.zajavka.infrastructure.database.repository.CarRepository;
+import pl.zajavka.infrastructure.database.repository.CustomerRepository;
+import pl.zajavka.infrastructure.database.repository.SalesmanRepository;
 
 
 @Slf4j
@@ -17,13 +20,21 @@ import java.util.Map;
 public class CarDealershipTest {
 
     private CarDealershipManagementService carDealershipManagementService;
+    private CarPurchaseService carPurchaseService;
 
 
     @BeforeEach
     void beforeEach() {
+        FileDataPreparationService fileDataPreparationService = new FileDataPreparationService();
         carDealershipManagementService = new CarDealershipManagementService(
                 new CarDealershipManagementRepository(),
-                new FileDataPreparationService()
+                fileDataPreparationService
+        );
+        carPurchaseService = new CarPurchaseService(
+                fileDataPreparationService,
+                new CustomerService(new CustomerRepository()),
+                new SalesmanService(new SalesmanRepository()),
+                new CarService(new CarRepository())
         );
     }
 
@@ -50,7 +61,7 @@ public class CarDealershipTest {
     @Order(3)
     void purchase() {
         log.info("### RUNNING ORDER 3");
-
+        carPurchaseService.purchase();
     }
 
     @Test

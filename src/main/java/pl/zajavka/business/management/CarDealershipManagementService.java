@@ -21,4 +21,6 @@ public class CarDealershipManagementService {
         List<?> entities = fileDataPreparationService.prepareInitData();
         carDealershipManagementDAO.savaAll(entities);
     }
+
+
 }
