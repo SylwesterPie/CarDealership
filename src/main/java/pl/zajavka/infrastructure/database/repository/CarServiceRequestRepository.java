@@ -1,23 +1,17 @@
 package pl.zajavka.infrastructure.database.repository;
 
-import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.CarServiceRequestDAO;
-import pl.zajavka.infrastructure.configuration.HibernateUtil;
 import pl.zajavka.infrastructure.database.entity.CarServiceRequestEntity;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
+@Repository
 public class CarServiceRequestRepository implements CarServiceRequestDAO {
     @Override
     public Set<CarServiceRequestEntity> findActiveServiceRequestByCarVin(String carVin) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-            session.beginTransaction();
 
             String query = """
                     SELECT sr FROM CarServiceRequestEntity sr
@@ -31,8 +25,7 @@ public class CarServiceRequestRepository implements CarServiceRequestDAO {
                     .setParameter("vin", carVin)
                     .list();
 
-            session.getTransaction().commit();
             return new HashSet<>(result);
         }
     }
-}
+

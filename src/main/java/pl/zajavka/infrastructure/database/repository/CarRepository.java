@@ -4,43 +4,29 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Root;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.CarDAO;
-import pl.zajavka.infrastructure.configuration.HibernateUtil;
 import pl.zajavka.infrastructure.database.entity.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
+@Repository
 public class CarRepository implements CarDAO {
     @Override
     public CarToServiceEntity saveCarToService(CarToServiceEntity entity) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-
-            Transaction transaction = session.beginTransaction();
-
+         
             session.persist(entity);
 
-            transaction.commit();
+
             return entity;
-        }
+
     }
 
     @Override
     public Optional<CarToBuyEntity> findCarToBuyByVin(String vin) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-
-            Transaction transaction = session.beginTransaction();
-
+         
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<CarToBuyEntity> criteriaQuery = criteriaBuilder.createQuery(CarToBuyEntity.class);
             Root<CarToBuyEntity> root = criteriaQuery.from(CarToBuyEntity.class);
@@ -49,26 +35,13 @@ public class CarRepository implements CarDAO {
 
             Query<CarToBuyEntity> query = session.createQuery(criteriaQuery);
             query.setParameter(parameter, vin);
-            try {
-                CarToBuyEntity result = query.getSingleResult();
-                transaction.commit();
-                return Optional.of(result);
-            } catch (Throwable ex) {
-                transaction.commit();
-                return Optional.empty();
-            }
-        }
+
+
     }
 
     @Override
     public Optional<CarToServiceEntity> findCarToServiceByVin(String vin) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-
-            Transaction transaction = session.beginTransaction();
-
+         
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<CarToServiceEntity> criteriaQuery = criteriaBuilder.createQuery(CarToServiceEntity.class);
             Root<CarToServiceEntity> root = criteriaQuery.from(CarToServiceEntity.class);
@@ -77,26 +50,12 @@ public class CarRepository implements CarDAO {
 
             Query<CarToServiceEntity> query = session.createQuery(criteriaQuery);
             query.setParameter(parameter, vin);
-            try {
-                CarToServiceEntity result = query.getSingleResult();
-                transaction.commit();
-                return Optional.of(result);
-            } catch (Throwable ex) {
-                transaction.commit();
-                return Optional.empty();
-            }
-        }
+
     }
 
     @Override
     public CarHistoryEntity findCarHistoryByVin(String vin) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-
-            Transaction transaction = session.beginTransaction();
-
+         
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<CarToServiceEntity> criteriaQuery = criteriaBuilder.createQuery(CarToServiceEntity.class);
             Root<CarToServiceEntity> root = criteriaQuery.from(CarToServiceEntity.class);
@@ -111,9 +70,9 @@ public class CarRepository implements CarDAO {
                     .carVin(vin)
                     .serviceRequest(carToServiceEntity.getCarServiceRequests().stream().map(this::mapServiceRequest).toList())
                     .build();
-            transaction.commit();
+
             return result;
-        }
+
     }
 
     private CarHistoryEntity.ServiceRequest mapServiceRequest(CarServiceRequestEntity entity) {

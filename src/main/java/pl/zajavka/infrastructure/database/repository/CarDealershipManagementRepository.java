@@ -1,22 +1,14 @@
 package pl.zajavka.infrastructure.database.repository;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.managment.CarDealershipManagementDAO;
-import pl.zajavka.infrastructure.configuration.HibernateUtil;
 
 import java.util.List;
-import java.util.Objects;
 
+@Repository
 public class CarDealershipManagementRepository implements CarDealershipManagementDAO {
     @Override
     public void purge() {
-        try (Session session = HibernateUtil.getSession()) {
-            if(Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-
-            Transaction transaction = session.beginTransaction();
 
             session.createMutationQuery("DELETE FROM ServiceMechanicEntity ent").executeUpdate();
             session.createMutationQuery("DELETE FROM ServicePartEntity ent").executeUpdate();
@@ -30,25 +22,15 @@ public class CarDealershipManagementRepository implements CarDealershipManagemen
             session.createMutationQuery("DELETE FROM CustomerEntity ent").executeUpdate();
             session.createMutationQuery("DELETE FROM AddressEntity ent").executeUpdate();
             session.createMutationQuery("DELETE FROM SalesmanEntity ent").executeUpdate();
-
-            transaction.commit();
-        }
+ 
     }
 
     @Override
     public void savaAll(List<?> entities) {
-        try (Session session = HibernateUtil.getSession()) {
-            if(Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-
-            Transaction transaction = session.beginTransaction();
 
             for (var entity : entities) {
                 session.persist(entity);
             }
-
-            transaction.commit();
-        }
+ 
     }
 }

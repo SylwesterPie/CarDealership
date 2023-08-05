@@ -22,6 +22,9 @@
         <mockito-junit-jupiter.version>5.3.1</mockito-junit-jupiter.version>
         <hibernate.version>6.2.6.Final</hibernate.version>
         <hikari.version>5.0.1</hikari.version>
+        <spring-data-jpa.version>3.1.2</spring-data-jpa.version>
+        <flyway-core.version>9.20.1</flyway-core.version>
+        <junit-jupiter.version>1.18.3</junit-jupiter.version>
     </properties>
 
     <dependencies>
@@ -56,6 +59,11 @@
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway-core.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -83,10 +91,27 @@
             <version>${mockito-junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
 
 
 
 <!--               SPRING DEPENDENCY  -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>

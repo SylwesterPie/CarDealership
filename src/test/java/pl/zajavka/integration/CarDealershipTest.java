@@ -2,22 +2,38 @@ package pl.zajavka.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.zajavka.business.*;
 import pl.zajavka.business.management.CarDealershipManagementService;
 import pl.zajavka.business.management.FileDataPreparationService;
-import pl.zajavka.infrastructure.configuration.HibernateUtil;
 import pl.zajavka.infrastructure.database.repository.*;
 
 
 @Slf4j
+@Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CarDealershipTest {
 
+    @Container
+    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.0");
+
     private CarDealershipManagementService carDealershipManagementService;
+
     private CarPurchaseService carPurchaseService;
     private CarServiceRequestService carServiceRequestService;
     private CarServiceProcessingService carServiceProcessingService;
     private CarService carService;
+
+    @DynamicPropertySource
+    static void postgreSQLProperties(DynamicPropertyRegistry registry) {
+        registry.add("jdbc.url", postgreSQLContainer::getJdbcUrl);
+        registry.add("jdbc.user", postgreSQLContainer::getUsername);
+        registry.add("jdbc.pass", postgreSQLContainer::getPassword);
+    }
 
     @AfterAll
     static void afterAll() {

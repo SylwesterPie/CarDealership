@@ -4,26 +4,19 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Root;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.CustomerDAO;
-import pl.zajavka.infrastructure.configuration.HibernateUtil;
 import pl.zajavka.infrastructure.database.entity.CustomerEntity;
 
 import java.util.Objects;
 import java.util.Optional;
 
+@Repository
 public class CustomerRepository implements CustomerDAO {
     @Override
     public Optional<CustomerEntity> findCustomerByEmail(String email) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-
-            Transaction transaction = session.beginTransaction();
-
+         
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<CustomerEntity> criteriaQuery = criteriaBuilder.createQuery(CustomerEntity.class);
             Root<CustomerEntity> root = criteriaQuery.from(CustomerEntity.class);
@@ -45,11 +38,7 @@ public class CustomerRepository implements CustomerDAO {
 
     @Override
     public void issueInvoice(CustomerEntity customer) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-            Transaction transaction = session.beginTransaction();
+        
 
             if (Objects.isNull(customer.getCustomerId())) {
                 session.persist(customer);
@@ -60,34 +49,22 @@ public class CustomerRepository implements CustomerDAO {
                         invoice.setCustomer(customer);
                         session.persist(invoice);
                     });
-
-            transaction.commit();
-        }
+ 
     }
 
     @Override
     public void saveServiceRequest(CustomerEntity customer) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-            Transaction transaction = session.beginTransaction();
+        
 
             customer.getCarServiceRequests().stream()
                     .filter(request -> Objects.isNull(request.getCarServiceRequestId()))
                     .forEach(session::persist);
-
-            transaction.commit();
-        }
+ 
     }
 
     @Override
     public CustomerEntity saveCustomer(CustomerEntity customer) {
-        try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
-                throw new RuntimeException("Session is null");
-            }
-            Transaction transaction = session.beginTransaction();
+        
             session.persist(customer);
             transaction.commit();
             return customer;
