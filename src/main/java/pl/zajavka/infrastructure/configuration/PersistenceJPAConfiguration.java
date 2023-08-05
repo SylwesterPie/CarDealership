@@ -19,7 +19,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import pl.zajavka.infrastructure.database.entity._EntityMarker;
-import pl.zajavka.infrastructure.database.repository.jpa.JpaRepositoryMarker;
+import pl.zajavka.infrastructure.database.repository.jpa._JpaRepositoryMarker;
 
 import javax.sql.DataSource;
 import java.util.Objects;
@@ -29,7 +29,7 @@ import java.util.Properties;
 @AllArgsConstructor
 @EnableTransactionManagement
 @PropertySource({"classpath:database.properties"})
-@EnableJpaRepositories(basePackageClasses = JpaRepositoryMarker.class)
+@EnableJpaRepositories(basePackageClasses = _JpaRepositoryMarker.class)
 public class PersistenceJPAConfiguration {
 
     private final Environment environment;

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import pl.zajavka.business.dao.ServiceRequestProcessingDAO;
 import pl.zajavka.business.management.FileDataPreparationService;
 import pl.zajavka.business.management.Keys;
-import pl.zajavka.domain.CarServiceProcessingRequest;
 import pl.zajavka.infrastructure.database.entity.*;
 
 import java.time.OffsetDateTime;

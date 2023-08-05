@@ -3,7 +3,6 @@ package pl.zajavka.business;
 import lombok.AllArgsConstructor;
 import pl.zajavka.business.dao.CarServiceRequestDAO;
 import pl.zajavka.business.management.FileDataPreparationService;
-import pl.zajavka.domain.CarServiceRequest;
 import pl.zajavka.infrastructure.database.entity.CarServiceRequestEntity;
 import pl.zajavka.infrastructure.database.entity.CarToBuyEntity;
 import pl.zajavka.infrastructure.database.entity.CarToServiceEntity;

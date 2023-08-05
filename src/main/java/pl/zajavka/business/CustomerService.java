@@ -2,7 +2,6 @@ package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
 import pl.zajavka.business.dao.CustomerDAO;
-import pl.zajavka.domain.CarServiceRequest;
 import pl.zajavka.infrastructure.database.entity.AddressEntity;
 import pl.zajavka.infrastructure.database.entity.CustomerEntity;
 
