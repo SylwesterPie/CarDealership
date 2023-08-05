@@ -1,9 +1,10 @@
 package pl.zajavka.business.dao;
 
-import pl.zajavka.infrastructure.database.entity.SalesmanEntity;
+
+import pl.zajavka.domain.Salesman;
 
 import java.util.Optional;
 
 public interface SalesmanDAO {
-    Optional<SalesmanEntity> findSalesmanByPesel(String pesel);
+    Optional<Salesman> findSalesmanByPesel(String pesel);
 }

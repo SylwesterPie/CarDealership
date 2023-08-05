@@ -1,9 +1,10 @@
 package pl.zajavka.business.dao;
 
-import pl.zajavka.infrastructure.database.entity.PartEntity;
+
+import pl.zajavka.domain.Part;
 
 import java.util.Optional;
 
 public interface PartDAO {
-    Optional<PartEntity> findPartBySerialNumber(String partSerialNumber);
+    Optional<Part> findPartBySerialNumber(String partSerialNumber);
 }

@@ -22,7 +22,7 @@ public class CarServiceRequest {
     OffsetDateTime completedDateTime;
     String customerComment;
     Customer customer;
-    CarToService carToService;
+    CarToService car;
     Set<ServiceMechanic> serviceMechanics;
     Set<ServicePart> serviceParts;
 

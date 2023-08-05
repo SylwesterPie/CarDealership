@@ -2,7 +2,7 @@ package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
 import pl.zajavka.business.dao.ServiceDAO;
-import pl.zajavka.infrastructure.database.entity.ServiceEntity;
+import pl.zajavka.domain.Service;
 
 import java.util.Optional;
 
@@ -11,8 +11,8 @@ public class ServiceCatalogService {
 
     private final ServiceDAO serviceDAO;
 
-    public ServiceEntity findService(String serviceCode) {
-        Optional<ServiceEntity> service = serviceDAO.findPartByServiceCode(serviceCode);
+    public Service findService(String serviceCode) {
+        Optional<Service> service = serviceDAO.findPartByServiceCode(serviceCode);
         if(service.isEmpty()) {
             throw new RuntimeException("Could not find service by service code: [%s]".formatted(serviceCode));
         }
