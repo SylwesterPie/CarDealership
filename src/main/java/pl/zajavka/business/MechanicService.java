@@ -1,6 +1,7 @@
 package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.MechanicDAO;
 import pl.zajavka.domain.Mechanic;
 
@@ -11,6 +12,7 @@ public class MechanicService {
 
     private final MechanicDAO mechanicDAO;
 
+    @Transactional
     public Mechanic findMechanic(String pesel) {
         Optional<Mechanic> mechanic = mechanicDAO.findMechanicByPesel(pesel);
         if(mechanic.isEmpty()) {

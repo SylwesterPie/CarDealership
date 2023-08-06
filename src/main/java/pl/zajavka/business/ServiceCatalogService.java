@@ -1,6 +1,7 @@
 package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.ServiceDAO;
 import pl.zajavka.domain.Service;
 
@@ -11,6 +12,7 @@ public class ServiceCatalogService {
 
     private final ServiceDAO serviceDAO;
 
+    @Transactional
     public Service findService(String serviceCode) {
         Optional<Service> service = serviceDAO.findByServiceCode(serviceCode);
         if(service.isEmpty()) {

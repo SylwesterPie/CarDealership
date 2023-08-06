@@ -10,6 +10,9 @@ import pl.zajavka.infrastructure.database.entity.InvoiceEntity;
 import pl.zajavka.infrastructure.database.repository.jpa.CarServiceRequestJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.CustomerJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.InvoiceJpaRepository;
+import pl.zajavka.infrastructure.database.repository.mapper.CarServiceRequestEntityMapper;
+import pl.zajavka.infrastructure.database.repository.mapper.CustomerEntityMapper;
+import pl.zajavka.infrastructure.database.repository.mapper.InvoiceEntityMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +38,7 @@ public class CustomerRepository implements CustomerDAO {
     @Override
     public void issueInvoice(Customer customer) {
         CustomerEntity customerToSave = customerEntityMapper.mapToEntity(customer);
-        CustomerEntity customerSave = customerJpaRepository.save(toSave);
+        CustomerEntity customerSave = customerJpaRepository.save(customerToSave);
 
         customer.getInvoices().stream()
                 .map(invoiceEntityMapper::mapToEntity)

@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ServiceJpaRepository  extends JpaRepository<ServiceEntity, Integer> {
 
-    Optional<ServiceEntity> findByServiceCode(String serviceCode)
+    Optional<ServiceEntity> findByServiceCode(String serviceCode);
 }

@@ -6,6 +6,7 @@ import pl.zajavka.business.dao.SalesmanDAO;
 import pl.zajavka.domain.Salesman;
 import pl.zajavka.infrastructure.database.repository.jpa.MechanicJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.SalesmanJpaRepository;
+import pl.zajavka.infrastructure.database.repository.mapper.SalesmanEntityMapper;
 
 import java.util.Optional;
 

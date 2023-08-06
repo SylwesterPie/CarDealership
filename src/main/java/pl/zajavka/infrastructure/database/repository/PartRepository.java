@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.PartDAO;
 import pl.zajavka.domain.Part;
 import pl.zajavka.infrastructure.database.repository.jpa.PartJpaRepository;
+import pl.zajavka.infrastructure.database.repository.mapper.PartEntityMapper;
 
 import java.util.Optional;
 

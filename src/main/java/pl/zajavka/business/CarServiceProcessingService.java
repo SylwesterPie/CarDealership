@@ -1,6 +1,7 @@
 package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.ServiceRequestProcessingDAO;
 import pl.zajavka.business.management.FileDataPreparationService;
 import pl.zajavka.business.management.Keys;
@@ -21,12 +22,13 @@ public class CarServiceProcessingService {
     private final PartCatalogService partCatalogService;
     private final ServiceRequestProcessingDAO serviceRequestProcessingDAO;
 
-
+    @Transactional
     public void process() {
         List<CarServiceProcessingInputData> toProcess = fileDataPreparationService.prepareServiceRequestToProcess();
         toProcess.forEach(this::processRequest);
     }
 
+    @Transactional
     private void processRequest(CarServiceProcessingInputData request) {
         Mechanic mechanic = mechanicService.findMechanic(request.getMechanicPesel());
         carService.findCarToService(request.getCarVin()).orElseThrow();

@@ -25,6 +25,7 @@
         <spring-data-jpa.version>3.1.2</spring-data-jpa.version>
         <flyway-core.version>9.20.1</flyway-core.version>
         <junit-jupiter.version>1.18.3</junit-jupiter.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
 
     <dependencies>
@@ -70,6 +71,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombokVersion}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
 
         <!-- test -->
@@ -168,6 +175,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombokVersion}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

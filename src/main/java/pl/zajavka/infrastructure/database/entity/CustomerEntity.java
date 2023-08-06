@@ -43,10 +43,4 @@ public class CustomerEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private Set<CarServiceRequestEntity> carServiceRequests;
 
-    public void addServiceRequest(CarServiceRequestEntity carServiceRequestEntity) {
-        if (Objects.isNull(carServiceRequests)) {
-            this.carServiceRequests = new HashSet<>();
-        }
-        carServiceRequests.add(carServiceRequestEntity);
-    }
 }

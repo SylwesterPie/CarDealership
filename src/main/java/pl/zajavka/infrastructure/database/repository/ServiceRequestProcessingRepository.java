@@ -14,6 +14,8 @@ import pl.zajavka.infrastructure.database.repository.jpa.CarServiceRequestJpaRep
 import pl.zajavka.infrastructure.database.repository.jpa.PartJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.ServiceMechanicJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.ServicePartJpaRepository;
+import pl.zajavka.infrastructure.database.repository.mapper.ServiceMechanicEntityMapper;
+import pl.zajavka.infrastructure.database.repository.mapper.ServicePartEntityMapper;
 
 import java.util.Objects;
 

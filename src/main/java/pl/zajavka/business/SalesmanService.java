@@ -1,6 +1,7 @@
 package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.SalesmanDAO;
 import pl.zajavka.domain.Salesman;
 
@@ -11,6 +12,7 @@ public class SalesmanService {
 
     private final SalesmanDAO salesmanDAO;
 
+    @Transactional
     public Salesman findSalesman(String pesel) {
         Optional<Salesman> salesman = salesmanDAO.findSalesmanByPesel(pesel);
         if(salesman.isEmpty()) {

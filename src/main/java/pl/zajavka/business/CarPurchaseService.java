@@ -1,6 +1,7 @@
 package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.management.FileDataPreparationService;
 import pl.zajavka.domain.*;
 
@@ -16,6 +17,7 @@ public class CarPurchaseService {
     private final SalesmanService salesmanService;
     private final CarService carService;
 
+    @Transactional
     public void purchase() {
         var firstTimeData = fileDataPreparationService.prepareFirstTimePurchaseData();
         var nextTimeData = fileDataPreparationService.prepareNextTimePurchaseData();
@@ -31,6 +33,7 @@ public class CarPurchaseService {
         nextTimeCustomer.forEach(customerService::issueInvoice);
     }
 
+    @Transactional
     private Customer createFirstTimeToBuyCustomer(CarPurchaseRequestInputData inputData) {
         CarToBuy car = carService.findCarToBuy(inputData.getCarVin());
         Salesman salesman = salesmanService.findSalesman(inputData.getSalesmanPesel());
@@ -39,6 +42,7 @@ public class CarPurchaseService {
         return fileDataPreparationService.buildCustomer(inputData, invoice);
     }
 
+    @Transactional
     private Customer createNextTimeToBuyCustomer(CarPurchaseRequestInputData inputData) {
         Customer existingCustomer = customerService.findCustomer(inputData.getCustomerEmail());
         CarToBuy car = carService.findCarToBuy(inputData.getCarVin());
@@ -48,6 +52,7 @@ public class CarPurchaseService {
         return existingCustomer;
     }
 
+    @Transactional
     private Invoice buildInvoice(CarToBuy car, Salesman salesman) {
         return Invoice.builder()
                 .invoiceNumber(UUID.randomUUID().toString())

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.ServiceDAO;
 import pl.zajavka.domain.Service;
 import pl.zajavka.infrastructure.database.repository.jpa.ServiceJpaRepository;
+import pl.zajavka.infrastructure.database.repository.mapper.ServiceEntityMapper;
 
 import java.util.Optional;
 
