@@ -6,5 +6,5 @@ import pl.zajavka.domain.Service;
 import java.util.Optional;
 
 public interface ServiceDAO {
-    Optional<Service> findPartByServiceCode(String serviceCode);
+    Optional<Service> findByServiceCode(String serviceCode);
 }

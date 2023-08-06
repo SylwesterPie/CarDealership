@@ -1,73 +1,66 @@
 package pl.zajavka.infrastructure.database.repository;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.ParameterExpression;
-import jakarta.persistence.criteria.Root;
-import org.hibernate.query.Query;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.CustomerDAO;
+import pl.zajavka.domain.Customer;
+import pl.zajavka.infrastructure.database.entity.CarServiceRequestEntity;
 import pl.zajavka.infrastructure.database.entity.CustomerEntity;
+import pl.zajavka.infrastructure.database.entity.InvoiceEntity;
+import pl.zajavka.infrastructure.database.repository.jpa.CarServiceRequestJpaRepository;
+import pl.zajavka.infrastructure.database.repository.jpa.CustomerJpaRepository;
+import pl.zajavka.infrastructure.database.repository.jpa.InvoiceJpaRepository;
 
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
 public class CustomerRepository implements CustomerDAO {
-    @Override
-    public Optional<CustomerEntity> findCustomerByEmail(String email) {
-         
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<CustomerEntity> criteriaQuery = criteriaBuilder.createQuery(CustomerEntity.class);
-            Root<CustomerEntity> root = criteriaQuery.from(CustomerEntity.class);
-            ParameterExpression<String> parameter = criteriaBuilder.parameter(String.class);
-            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("email"), parameter));
 
-            Query<CustomerEntity> query = session.createQuery(criteriaQuery);
-            query.setParameter(parameter, email);
-            try {
-                CustomerEntity result = query.getSingleResult();
-                transaction.commit();
-                return Optional.of(result);
-            } catch (Throwable ex) {
-                transaction.commit();
-                return Optional.empty();
-            }
-        }
+    private final CustomerJpaRepository customerJpaRepository;
+    private final InvoiceJpaRepository invoiceJpaRepository;
+    private final CarServiceRequestJpaRepository carServiceRequestJpaRepository;
+
+    private final CustomerEntityMapper customerEntityMapper;
+    private final InvoiceEntityMapper invoiceEntityMapper;
+    private final CarServiceRequestEntityMapper carServiceRequestEntityMapper;
+
+    @Override
+    public Optional<Customer> findCustomerByEmail(String email) {
+        return customerJpaRepository.findByEmail(email)
+                .map(customerEntityMapper::mapFromEntity);
     }
 
     @Override
-    public void issueInvoice(CustomerEntity customer) {
-        
+    public void issueInvoice(Customer customer) {
+        CustomerEntity customerToSave = customerEntityMapper.mapToEntity(customer);
+        CustomerEntity customerSave = customerJpaRepository.save(toSave);
 
-            if (Objects.isNull(customer.getCustomerId())) {
-                session.persist(customer);
-            }
-            customer.getInvoices().stream()
-                    .filter(invoice -> Objects.isNull(invoice.getInvoiceId()))
-                    .forEach(invoice -> {
-                        invoice.setCustomer(customer);
-                        session.persist(invoice);
-                    });
+        customer.getInvoices().stream()
+                .map(invoiceEntityMapper::mapToEntity)
+                .forEach((InvoiceEntity entity) -> {
+                    entity.setCustomer(customerSave);
+                    invoiceJpaRepository.saveAndFlush(entity);
+                });
  
     }
 
     @Override
-    public void saveServiceRequest(CustomerEntity customer) {
-        
+    public void saveServiceRequest(Customer customer) {
+        List<CarServiceRequestEntity> serviceRequest = customer.getCarServiceRequests().stream()
+                .map(carServiceRequestEntityMapper::mapToEntity)
+                .toList();
 
-            customer.getCarServiceRequests().stream()
-                    .filter(request -> Objects.isNull(request.getCarServiceRequestId()))
-                    .forEach(session::persist);
- 
+        serviceRequest
+                .forEach(request -> request.setCustomer(customerEntityMapper.mapToEntity(customer)));
+        carServiceRequestJpaRepository.saveAllAndFlush(serviceRequest);
     }
 
     @Override
-    public CustomerEntity saveCustomer(CustomerEntity customer) {
-        
-            session.persist(customer);
-            transaction.commit();
-            return customer;
-        }
+    public Customer saveCustomer(Customer customer) {
+        CustomerEntity toSave = customerEntityMapper.mapToEntity(customer);
+        CustomerEntity save = customerJpaRepository.saveAndFlush(toSave);
+        return customerEntityMapper.mapFromEntity(save);
     }
 }

@@ -1,31 +1,26 @@
 package pl.zajavka.infrastructure.database.repository;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.CarServiceRequestDAO;
-import pl.zajavka.infrastructure.database.entity.CarServiceRequestEntity;
+import pl.zajavka.domain.CarServiceRequest;
+import pl.zajavka.infrastructure.database.repository.jpa.CarServiceRequestJpaRepository;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
+@AllArgsConstructor
 public class CarServiceRequestRepository implements CarServiceRequestDAO {
+
+    private final CarServiceRequestJpaRepository carServiceRequestJpaRepository;
+    private final CarServiceRequestEntityMapper carServiceRequestEntityMapper;
+
     @Override
-    public Set<CarServiceRequestEntity> findActiveServiceRequestByCarVin(String carVin) {
-
-            String query = """
-                    SELECT sr FROM CarServiceRequestEntity sr
-                    WHERE
-                    sr.carToService.vin = :vin
-                    AND sr.completedDateTime IS NULL
-                    """;
-
-            List<CarServiceRequestEntity> result = session
-                    .createQuery(query, CarServiceRequestEntity.class)
-                    .setParameter("vin", carVin)
-                    .list();
-
-            return new HashSet<>(result);
+    public Set<CarServiceRequest> findActiveServiceRequestByCarVin(String carVin) {
+        return carServiceRequestJpaRepository.findActiveServiceRequestByCarVin(carVin).stream()
+                .map(obj -> carServiceRequestEntityMapper.mapFromEntity(obj))
+                .collect(Collectors.toSet());
         }
     }
 

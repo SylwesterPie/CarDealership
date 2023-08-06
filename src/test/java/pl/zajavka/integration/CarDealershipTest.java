@@ -43,7 +43,7 @@ public class CarDealershipTest {
     void beforeEach() {
         CustomerRepository customerDAO = new CustomerRepository();
         SalesmanRepository salesmanDAO = new SalesmanRepository();
-        CarRepository carDAO = new CarRepository();
+        CarToServiceRepository carDAO = new CarToServiceRepository();
         CustomerService customerService = new CustomerService(customerDAO);
         SalesmanService salesmanService = new SalesmanService(salesmanDAO);
         FileDataPreparationService fileDataPreparationService = new FileDataPreparationService();

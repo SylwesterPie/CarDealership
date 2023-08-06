@@ -42,7 +42,7 @@ public class CarServiceRequestEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_to_service_id", nullable = false)
-    private CarToServiceEntity carToService;
+    private CarToServiceEntity car;
 
     @OneToMany(mappedBy = "carServiceRequest", fetch = FetchType.LAZY)
     private Set<ServiceMechanicEntity> serviceMechanics;
