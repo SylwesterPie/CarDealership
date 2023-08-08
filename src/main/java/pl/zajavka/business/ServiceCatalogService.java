@@ -8,6 +8,7 @@ import pl.zajavka.domain.Service;
 import java.util.Optional;
 
 @AllArgsConstructor
+@org.springframework.stereotype.Service
 public class ServiceCatalogService {
 
     private final ServiceDAO serviceDAO;

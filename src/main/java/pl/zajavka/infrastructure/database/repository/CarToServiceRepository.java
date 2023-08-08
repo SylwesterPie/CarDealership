@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.CarToServiceDAO;
 import pl.zajavka.domain.CarHistory;
 import pl.zajavka.domain.CarToService;
-import pl.zajavka.infrastructure.database.entity.*;
+import pl.zajavka.infrastructure.database.entity.CarToServiceEntity;
 import pl.zajavka.infrastructure.database.repository.jpa.CarToServiceJpaRepository;
 import pl.zajavka.infrastructure.database.repository.mapper.CarToServiceEntityMapper;
 

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
+@org.springframework.stereotype.Service
 public class CarServiceProcessingService {
 
     private final FileDataPreparationService fileDataPreparationService;

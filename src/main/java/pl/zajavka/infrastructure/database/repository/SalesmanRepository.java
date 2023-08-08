@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import pl.zajavka.business.dao.SalesmanDAO;
 import pl.zajavka.domain.Salesman;
-import pl.zajavka.infrastructure.database.repository.jpa.MechanicJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.SalesmanJpaRepository;
 import pl.zajavka.infrastructure.database.repository.mapper.SalesmanEntityMapper;
 

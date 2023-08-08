@@ -11,8 +11,6 @@ import pl.zajavka.infrastructure.database.entity.CarToServiceEntity;
 import pl.zajavka.infrastructure.database.entity.ServiceMechanicEntity;
 import pl.zajavka.infrastructure.database.entity.ServicePartEntity;
 
-import java.math.BigDecimal;
-
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CarToServiceEntityMapper {
 

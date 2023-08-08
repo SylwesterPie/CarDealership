@@ -19,9 +19,9 @@ public class FileDataPreparationService {
                 .toList();
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
+
     private CarPurchaseRequestInputData prepareFirstTimePurchaseData(Map<String, List<String>> inputData) {
-        List<String> customerData = inputData.get(Domain.CUSTOMER);
+        List<String> customerData = inputData.get(Domain.CUSTOMER.toString());
         return CarPurchaseRequestInputData.builder()
                 .customerName(customerData.get(0))
                 .customerSurname(customerData.get(1))
@@ -31,8 +31,8 @@ public class FileDataPreparationService {
                 .customerAddressCity(customerData.get(5))
                 .customerAddressPostalCode(customerData.get(6))
                 .customerAddressStreet(customerData.get(7))
-                .carVin(inputData.get(Domain.CAR).get(0))
-                .salesmanPesel(inputData.get(Domain.SALESMAN).get(0))
+                .carVin(inputData.get(Domain.CAR.toString()).get(0))
+                .salesmanPesel(inputData.get(Domain.SALESMAN.toString()).get(0))
                 .build();
     }
 
@@ -43,12 +43,11 @@ public class FileDataPreparationService {
     }
 
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     private CarPurchaseRequestInputData prepareNextTimePurchaseData(Map<String, List<String>> inputData) {
         return CarPurchaseRequestInputData.builder()
-                .customerEmail(inputData.get(Domain.CUSTOMER).get(0))
-                .carVin(inputData.get(Domain.CAR).get(0))
-                .salesmanPesel(inputData.get(Domain.SALESMAN).get(0))
+                .customerEmail(inputData.get(Domain.CUSTOMER.toString()).get(0))
+                .carVin(inputData.get(Domain.CAR.toString()).get(0))
+                .salesmanPesel(inputData.get(Domain.SALESMAN.toString()).get(0))
                 .build();
     }
 

@@ -6,7 +6,6 @@ import pl.zajavka.business.dao.CustomerDAO;
 import pl.zajavka.domain.Customer;
 import pl.zajavka.infrastructure.database.entity.CarServiceRequestEntity;
 import pl.zajavka.infrastructure.database.entity.CustomerEntity;
-import pl.zajavka.infrastructure.database.entity.InvoiceEntity;
 import pl.zajavka.infrastructure.database.repository.jpa.CarServiceRequestJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.CustomerJpaRepository;
 import pl.zajavka.infrastructure.database.repository.jpa.InvoiceJpaRepository;
@@ -15,6 +14,7 @@ import pl.zajavka.infrastructure.database.repository.mapper.CustomerEntityMapper
 import pl.zajavka.infrastructure.database.repository.mapper.InvoiceEntityMapper;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -38,11 +38,13 @@ public class CustomerRepository implements CustomerDAO {
     @Override
     public void issueInvoice(Customer customer) {
         CustomerEntity customerToSave = customerEntityMapper.mapToEntity(customer);
-        CustomerEntity customerSave = customerJpaRepository.save(customerToSave);
+        CustomerEntity customerSave = customerJpaRepository.saveAndFlush(customerToSave);
+
 
         customer.getInvoices().stream()
+                .filter(invoice -> Objects.isNull(invoice.getInvoiceId()))
                 .map(invoiceEntityMapper::mapToEntity)
-                .forEach((InvoiceEntity entity) -> {
+                .forEach(entity -> {
                     entity.setCustomer(customerSave);
                     invoiceJpaRepository.saveAndFlush(entity);
                 });

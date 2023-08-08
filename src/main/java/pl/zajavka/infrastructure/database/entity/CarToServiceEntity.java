@@ -31,6 +31,6 @@ public class CarToServiceEntity {
     @Column(name = "year", nullable = false)
     private Integer year;
 
-    @OneToMany(mappedBy = "carToService", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private Set<CarServiceRequestEntity> carServiceRequests;
 }

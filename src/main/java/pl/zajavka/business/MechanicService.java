@@ -1,6 +1,7 @@
 package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.MechanicDAO;
 import pl.zajavka.domain.Mechanic;
@@ -8,6 +9,7 @@ import pl.zajavka.domain.Mechanic;
 import java.util.Optional;
 
 @AllArgsConstructor
+@Service
 public class MechanicService {
 
     private final MechanicDAO mechanicDAO;

@@ -2,8 +2,8 @@ package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.zajavka.business.dao.CarDAO;
 import pl.zajavka.business.dao.CarToBuyDAO;
 import pl.zajavka.business.dao.CarToServiceDAO;
 import pl.zajavka.domain.CarHistory;
@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Slf4j
+@Service
 public class CarService {
 
     private final CarToBuyDAO carToBuyDAO;

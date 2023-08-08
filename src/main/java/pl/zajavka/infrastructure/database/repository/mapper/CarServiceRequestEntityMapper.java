@@ -3,10 +3,8 @@ package pl.zajavka.infrastructure.database.repository.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import pl.zajavka.domain.*;
+import pl.zajavka.domain.CarServiceRequest;
 import pl.zajavka.infrastructure.database.entity.CarServiceRequestEntity;
-
-import java.util.Set;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CarServiceRequestEntityMapper {
@@ -16,5 +14,7 @@ public interface CarServiceRequestEntityMapper {
     @Mapping(target = "serviceParts", ignore = true)
     CarServiceRequest mapFromEntity(CarServiceRequestEntity entity);
 
+    @Mapping(target = "customer.address", ignore = true)
+    @Mapping(target = "customer.carServiceRequests", ignore = true)
     CarServiceRequestEntity mapToEntity(CarServiceRequest carServiceRequest);
 }
