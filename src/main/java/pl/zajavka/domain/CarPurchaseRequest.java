@@ -7,9 +7,9 @@ import lombok.With;
 @With
 @Value
 @Builder
-public class CarPurchaseRequestInputData {
+public class CarPurchaseRequest {
 
-
+    String existingCustomerEmail;
     String customerName;
     String customerSurname;
     String customerPhone;

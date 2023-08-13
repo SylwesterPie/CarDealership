@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.PartDAO;
 import pl.zajavka.domain.Part;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -22,5 +23,9 @@ public class PartCatalogService {
             throw new RuntimeException("Could not find part by serial number: [%s]".formatted(partSerialNumber));
         }
         return part.get();
+    }
+
+    public List<Part> findAll() {
+        return partDAO.findAll();
     }
 }

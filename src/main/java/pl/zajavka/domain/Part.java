@@ -8,10 +8,11 @@ import java.util.Set;
 @With
 @Value
 @Builder
-@EqualsAndHashCode(of = "partId")
+@EqualsAndHashCode(of = "serialNumber")
 @ToString(of = {"partId", "serialNumber", "description", "price"})
 public class Part {
 
+    public static final String NONE = "NONE";
     Integer partId;
     String serialNumber;
     String description;

@@ -7,6 +7,7 @@ import pl.zajavka.domain.Salesman;
 import pl.zajavka.infrastructure.database.repository.jpa.SalesmanJpaRepository;
 import pl.zajavka.infrastructure.database.repository.mapper.SalesmanEntityMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,5 +21,12 @@ public class SalesmanRepository implements SalesmanDAO {
     public Optional<Salesman> findSalesmanByPesel(String pesel) {
         return salesmanJpaRepository.findByPesel(pesel)
                 .map(salesmanEntityMapper::mapFromEntity);
+    }
+
+    @Override
+    public List<Salesman> findAvailableSalesmen() {
+        return salesmanJpaRepository.findAll().stream()
+                .map(salesmanEntityMapper::mapFromEntity)
+                .toList();
     }
 }

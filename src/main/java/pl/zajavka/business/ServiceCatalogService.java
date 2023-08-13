@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.ServiceDAO;
 import pl.zajavka.domain.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -20,5 +21,9 @@ public class ServiceCatalogService {
             throw new RuntimeException("Could not find service by service code: [%s]".formatted(serviceCode));
         }
         return service.get();
+    }
+
+    public List<Service> findAll() {
+        return serviceDAO.findAll();
     }
 }

@@ -7,6 +7,7 @@ import pl.zajavka.domain.Mechanic;
 import pl.zajavka.infrastructure.database.repository.jpa.MechanicJpaRepository;
 import pl.zajavka.infrastructure.database.repository.mapper.MechanicEntityMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,5 +21,12 @@ public class MechanicRepository implements MechanicDAO {
     public Optional<Mechanic> findMechanicByPesel(String pesel) {
         return mechanicJpaRepository.findByPesel(pesel)
                 .map(mechanicEntityMapper::mapFromEntity);
+    }
+
+    @Override
+    public List<Mechanic> findAvailableMechanic() {
+        return mechanicJpaRepository.findAll().stream()
+                .map(mechanicEntityMapper::mapFromEntity)
+                .toList();
     }
 }

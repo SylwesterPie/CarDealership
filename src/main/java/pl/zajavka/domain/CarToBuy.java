@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @With
 @Value
 @Builder
-@EqualsAndHashCode(of = "carToBuyId")
+@EqualsAndHashCode(of = "vin")
 @ToString(of = {"carToBuyId", "vin", "brand", "model", "year"})
 public class CarToBuy {
 

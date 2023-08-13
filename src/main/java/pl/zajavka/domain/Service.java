@@ -8,7 +8,7 @@ import java.util.Set;
 @With
 @Value
 @Builder
-@EqualsAndHashCode(of = "serviceId")
+@EqualsAndHashCode(of = "serviceCode")
 @ToString(of = {"serviceId", "serviceCode", "description", "price"})
 public class Service {
 

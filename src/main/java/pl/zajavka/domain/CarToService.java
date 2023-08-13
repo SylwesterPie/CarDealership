@@ -8,7 +8,7 @@ import java.util.Set;
 @With
 @Value
 @Builder
-@EqualsAndHashCode(of = "carToServiceId")
+@EqualsAndHashCode(of = "vin")
 @ToString(of = {"carToServiceId", "vin", "brand", "model"})
 public class CarToService {
 
@@ -19,7 +19,7 @@ public class CarToService {
     Integer year;
     Set<CarServiceRequest> carServiceRequests;
 
-    public boolean carBoughtHere() {
+    public boolean shouldExistingInCarToBuy() {
         return Objects.nonNull(vin)
                 && Objects.isNull(brand)
                 && Objects.isNull(model)

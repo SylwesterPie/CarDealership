@@ -14,18 +14,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springVersion>6.0.9</springVersion>
         <lombokVersion>1.18.28</lombokVersion>
-        <junit.version>5.9.1</junit.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <logbackVersion>1.4.7</logbackVersion>
         <postgresql.version>42.6.0</postgresql.version>
-        <mockito-junit-jupiter.version>5.3.1</mockito-junit-jupiter.version>
         <hibernate.version>6.2.6.Final</hibernate.version>
         <hikari.version>5.0.1</hikari.version>
         <spring-data-jpa.version>3.1.2</spring-data-jpa.version>
         <flyway-core.version>9.20.1</flyway-core.version>
-        <junit-jupiter.version>1.18.3</junit-jupiter.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <jakarta.jakartaee-api.version>10.0.0</jakarta.jakartaee-api.version>
+        <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
+        <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     </properties>
 
     <dependencies>
@@ -52,9 +52,6 @@
             <artifactId>HikariCP</artifactId>
             <version>${hikari.version}</version>
         </dependency>
-
-
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -65,59 +62,44 @@
             <artifactId>flyway-core</artifactId>
             <version>${flyway-core.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombokVersion}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
-
-        <!-- test -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>${jakarta.jakartaee-api.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito-junit-jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${junit-jupiter.version}</version>
-            <scope>test</scope>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring6</artifactId>
+            <version>${thymeleaf.version}</version>
         </dependency>
 
-
-
-<!--               SPRING DEPENDENCY  -->
+        <!--               SPRING DEPENDENCY  -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-jpa.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -154,12 +136,7 @@
             <artifactId>spring-tx</artifactId>
             <version>${springVersion}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${springVersion}</version>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
     <build>
@@ -188,6 +165,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    <warName>car-dealership.war</warName>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
             </plugin>
         </plugins>
     </build>

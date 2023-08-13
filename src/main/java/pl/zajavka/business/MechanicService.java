@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.MechanicDAO;
 import pl.zajavka.domain.Mechanic;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -21,5 +22,10 @@ public class MechanicService {
             throw new RuntimeException("Could not find Mechanic by pesel: [%s]".formatted(pesel));
         }
         return mechanic.get();
+    }
+
+    @Transactional
+    public List<Mechanic> findAvailableMechanic() {
+        return mechanicDAO.findAvailableMechanic();
     }
 }

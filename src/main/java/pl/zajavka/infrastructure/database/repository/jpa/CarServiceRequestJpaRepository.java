@@ -1,5 +1,6 @@
 package pl.zajavka.infrastructure.database.repository.jpa;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,12 @@ public interface CarServiceRequestJpaRepository  extends JpaRepository<CarServic
             """
     )
     Set<CarServiceRequestEntity> findActiveServiceRequestByCarVin(final @Param("vin") String carVin);
+
+    @EntityGraph(
+            type = EntityGraph.EntityGraphType.FETCH,
+            attributePaths = {
+                    "car"
+            }
+    )
+    Set<CarServiceRequestEntity> findAllByCompletedDateTimeIsNull();
 }

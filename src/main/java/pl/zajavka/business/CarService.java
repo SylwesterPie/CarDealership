@@ -10,16 +10,26 @@ import pl.zajavka.domain.CarHistory;
 import pl.zajavka.domain.CarToBuy;
 import pl.zajavka.domain.CarToService;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 
-@AllArgsConstructor
 @Slf4j
 @Service
+@AllArgsConstructor
 public class CarService {
-
     private final CarToBuyDAO carToBuyDAO;
+
     private final CarToServiceDAO carToServiceDAO;
+
+    @Transactional
+    public List<CarToBuy> findAvailableCar() {
+        List<CarToBuy> availableCar = carToBuyDAO.findAvailable();
+        log.info("Available cars: [{}]", availableCar);
+        return availableCar;
+    }
+
 
     @Transactional
     public CarToBuy findCarToBuy(String vin) {
@@ -50,6 +60,16 @@ public class CarService {
         return carToServiceDAO.saveCarToService(car);
     }
 
+    public List<CarToService> findAllCarsWithHistory() {
+        List<CarToService> allCars = carToServiceDAO.findAll();
+        log.info("Cars to show history: [{}]", allCars);
+        return allCars;
+    }
+
+    public CarHistory findCarHistoryByVin(String carVin) {
+        return carToServiceDAO.findCarHistoryByVin(carVin);
+    }
+
     public void printCarHistory(String vin) {
         CarHistory carHistoryByVin = carToServiceDAO.findCarHistoryByVin(vin);
         log.info("###CAR HISTORY FOR VIN: [{}]", vin);
@@ -62,3 +82,4 @@ public class CarService {
         serviceRequest.getParts().forEach(part -> log.info("###PART: [{}]", part));
     }
 }
+
