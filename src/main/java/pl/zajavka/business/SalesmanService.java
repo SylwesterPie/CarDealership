@@ -6,30 +6,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.SalesmanDAO;
 import pl.zajavka.domain.Salesman;
+import pl.zajavka.domain.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class SalesmanService {
 
     private final SalesmanDAO salesmanDAO;
 
     @Transactional
-    public Salesman findSalesman(String pesel) {
-        Optional<Salesman> salesman = salesmanDAO.findSalesmanByPesel(pesel);
-        if(salesman.isEmpty()) {
-            throw new RuntimeException("Could not find Salesman by pesel: [%s]".formatted(pesel));
-        }
-        return salesman.get();
+    public List<Salesman> findAvailable() {
+        List<Salesman> availableSalesmen = salesmanDAO.findAvailable();
+        log.info("Available salesmen: [{}]", availableSalesmen.size());
+        return availableSalesmen;
     }
 
     @Transactional
-    public List<Salesman> findAvailableSalesman() {
-        List<Salesman> availableSalesmen = salesmanDAO.findAvailableSalesmen();
-        log.info("Available Salesmen: [{}]", availableSalesmen);
-        return availableSalesmen;
+    public Salesman findSalesman(String pesel) {
+        Optional<Salesman> salesman = salesmanDAO.findByPesel(pesel);
+        if (salesman.isEmpty()) {
+            throw new NotFoundException("Could not find salesman by pesel: [%s]".formatted(pesel));
+        }
+        return salesman.get();
     }
 }

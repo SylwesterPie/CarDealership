@@ -1,6 +1,10 @@
 package pl.zajavka.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.Value;
+import lombok.With;
 
 import java.util.Objects;
 import java.util.Set;
@@ -9,7 +13,7 @@ import java.util.Set;
 @Value
 @Builder
 @EqualsAndHashCode(of = "vin")
-@ToString(of = {"carToServiceId", "vin", "brand", "model"})
+@ToString(of = {"carToServiceId", "vin", "brand", "model", "year"})
 public class CarToService {
 
     Integer carToServiceId;
@@ -19,10 +23,10 @@ public class CarToService {
     Integer year;
     Set<CarServiceRequest> carServiceRequests;
 
-    public boolean shouldExistingInCarToBuy() {
+    public boolean shouldExistsInCarToBuy() {
         return Objects.nonNull(vin)
-                && Objects.isNull(brand)
-                && Objects.isNull(model)
-                && Objects.isNull(year);
+            && Objects.isNull(brand)
+            && Objects.isNull(model)
+            && Objects.isNull(year);
     }
 }

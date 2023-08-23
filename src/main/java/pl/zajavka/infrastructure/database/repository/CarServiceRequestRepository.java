@@ -21,15 +21,14 @@ public class CarServiceRequestRepository implements CarServiceRequestDAO {
     @Override
     public List<CarServiceRequest> findAvailable() {
         return carServiceRequestJpaRepository.findAllByCompletedDateTimeIsNull().stream()
-                .map(carServiceRequestEntityMapper::mapFromEntityWithCar)
-                .toList();
+            .map(carServiceRequestEntityMapper::mapFromEntityWithCar)
+            .toList();
     }
 
     @Override
-    public Set<CarServiceRequest> findActiveServiceRequestByCarVin(String carVin) {
-        return carServiceRequestJpaRepository.findActiveServiceRequestByCarVin(carVin).stream()
-                .map(carServiceRequestEntityMapper::mapFromEntity)
-                .collect(Collectors.toSet());
-        }
+    public Set<CarServiceRequest> findActiveServiceRequestsByCarVin(String carVin) {
+        return carServiceRequestJpaRepository.findActiveServiceRequestsByCarVin(carVin).stream()
+            .map(carServiceRequestEntityMapper::mapFromEntity)
+            .collect(Collectors.toSet());
+    }
 }
-

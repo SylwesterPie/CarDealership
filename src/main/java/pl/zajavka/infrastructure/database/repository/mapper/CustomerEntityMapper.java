@@ -23,13 +23,14 @@ public interface CustomerEntityMapper {
     Customer mapFromEntity(CustomerEntity entity);
 
     @Named("mapInvoices")
-    default Set<Invoice> mapInvoices(Set<InvoiceEntity> invoicesEntities) {
-        return invoicesEntities.stream().map(this::mapFromEntity).collect(Collectors.toSet());
+    @SuppressWarnings("unused")
+    default Set<Invoice> mapInvoices(Set<InvoiceEntity> invoiceEntities) {
+        return invoiceEntities.stream().map(this::mapFromEntity).collect(Collectors.toSet());
     }
 
     @Named("mapCarServiceRequests")
     @SuppressWarnings("unused")
-    default Set<CarServiceRequest> mapCarServiceRequests(Set<CarServiceRequestEntity> entities){
+    default Set<CarServiceRequest> mapCarServiceRequests(Set<CarServiceRequestEntity> entities) {
         return entities.stream().map(this::mapFromEntity).collect(Collectors.toSet());
     }
 

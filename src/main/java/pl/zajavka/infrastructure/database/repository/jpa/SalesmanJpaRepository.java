@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface SalesmanJpaRepository extends JpaRepository<SalesmanEntity, Integer> {
+
     Optional<SalesmanEntity> findByPesel(String pesel);
 }

@@ -7,5 +7,5 @@ import pl.zajavka.domain.Part;
 @Mapper(componentModel = "spring")
 public interface PartMapper {
 
-    PartDTO mapToDTO(Part part);
+    PartDTO map(Part part);
 }

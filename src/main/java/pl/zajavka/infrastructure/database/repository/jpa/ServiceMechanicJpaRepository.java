@@ -8,5 +8,4 @@ import pl.zajavka.infrastructure.database.entity.ServiceMechanicEntity;
 public interface ServiceMechanicJpaRepository extends JpaRepository<ServiceMechanicEntity, Integer> {
 
 
-
 }

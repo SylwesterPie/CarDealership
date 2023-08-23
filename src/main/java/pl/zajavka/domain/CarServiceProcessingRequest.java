@@ -1,6 +1,5 @@
 package pl.zajavka.domain;
 
-
 import lombok.Builder;
 import lombok.Value;
 import lombok.With;
@@ -23,7 +22,7 @@ public class CarServiceProcessingRequest {
 
     public boolean partNotIncluded() {
         return Objects.isNull(getPartSerialNumber())
-                || Objects.isNull(getPartQuantity())
-                || Part.NONE.equals(getPartSerialNumber());
+            || Objects.isNull(getPartQuantity())
+            || Part.NONE.equals(getPartSerialNumber());
     }
 }

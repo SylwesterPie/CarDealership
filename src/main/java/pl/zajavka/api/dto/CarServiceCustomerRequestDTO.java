@@ -9,8 +9,8 @@ import java.util.Objects;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class CarServiceCustomerRequestDTO {
 
     private String existingCustomerEmail;
@@ -25,7 +25,6 @@ public class CarServiceCustomerRequestDTO {
     private String customerAddressStreet;
 
     private String existingCarVin;
-
     private String carVin;
     private String carBrand;
     private String carModel;
@@ -35,16 +34,17 @@ public class CarServiceCustomerRequestDTO {
 
     public static CarServiceCustomerRequestDTO buildDefault() {
         return CarServiceCustomerRequestDTO.builder()
-                .existingCustomerEmail("alf.samoch@gmail.com")
-                .existingCarVin("")
-                .customerComment("olej cieknie mi na stopy")
-                .build();
+            .existingCustomerEmail("alf.samoch@gmail.com")
+            .existingCarVin("1FT7X2B60FEA74019")
+            .customerComment("Olej cieknie mi na stopy")
+            .build();
     }
 
     public boolean isNewCarCandidate() {
         return Objects.isNull(getExistingCustomerEmail())
-                || getExistingCustomerEmail().isBlank()
-                || Objects.isNull(getExistingCarVin())
-                || getExistingCarVin().isBlank();
+            || getExistingCustomerEmail().isBlank()
+            || Objects.isNull(getExistingCarVin())
+            || getExistingCarVin().isBlank();
+
     }
 }

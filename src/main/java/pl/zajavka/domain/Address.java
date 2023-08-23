@@ -1,7 +1,10 @@
 package pl.zajavka.domain;
 
-import lombok.*;
-
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.Value;
+import lombok.With;
 
 @With
 @Value
@@ -17,4 +20,3 @@ public class Address {
     String address;
     Customer customer;
 }
-

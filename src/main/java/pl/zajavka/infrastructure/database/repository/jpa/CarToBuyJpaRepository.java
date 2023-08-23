@@ -11,11 +11,6 @@ import java.util.Optional;
 @Repository
 public interface CarToBuyJpaRepository extends JpaRepository<CarToBuyEntity, Integer> {
 
-//    @Query("""
-//        SELECT car FROM CarToBuyEntity car
-//        WHERE car.carId NOT IN (SELECT invoice.car.carToBuyId FROM InvoiceEntity invoice
-//        """)
-
     @Query("""
         SELECT car FROM CarToBuyEntity car
         LEFT JOIN FETCH car.invoice invoice

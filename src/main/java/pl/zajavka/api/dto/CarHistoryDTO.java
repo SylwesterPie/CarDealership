@@ -10,27 +10,27 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class CarHistoryDTO {
 
     private String carVin;
-    private List<ServiceRequestDTO> carServiceRequest;
+    private List<ServiceRequestDTO> carServiceRequests;
 
     public static CarHistoryDTO buildDefault() {
         return CarHistoryDTO.builder()
-                .carVin("empty")
-                .carServiceRequest(Collections.emptyList())
-                .build();
+            .carVin("empty")
+            .carServiceRequests(Collections.emptyList())
+            .build();
     }
 
     @Data
     @Builder
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class ServiceRequestDTO {
         private String carServiceRequestNumber;
-        private String receivedDataTime;
+        private String receivedDateTime;
         private String completedDateTime;
         private String customerComment;
         private List<ServiceDTO> services;

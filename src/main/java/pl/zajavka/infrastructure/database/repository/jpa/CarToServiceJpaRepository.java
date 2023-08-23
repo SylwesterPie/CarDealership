@@ -10,18 +10,17 @@ import java.util.Optional;
 @Repository
 public interface CarToServiceJpaRepository extends JpaRepository<CarToServiceEntity, Integer> {
 
-    Optional<CarToServiceEntity> findByVin(String vin);
-
+    Optional<CarToServiceEntity> findOptionalByVin(String vin);
 
     @EntityGraph(
-            type = EntityGraph.EntityGraphType.FETCH,
-            attributePaths = {
-                    "carServiceRequests",
-                    "carServiceRequests.serviceMechanics",
-                    "carServiceRequests.serviceMechanics.service",
-                    "carServiceRequests.serviceParts",
-                    "carServiceRequests.serviceParts.part"
-            }
+        type = EntityGraph.EntityGraphType.FETCH,
+        attributePaths = {
+            "carServiceRequests",
+            "carServiceRequests.serviceMechanics",
+            "carServiceRequests.serviceMechanics.service",
+            "carServiceRequests.serviceParts",
+            "carServiceRequests.serviceParts.part"
+        }
     )
-    CarToServiceEntity findCarHistoryByVin(String vin);
+    CarToServiceEntity findByVin(String vin);
 }

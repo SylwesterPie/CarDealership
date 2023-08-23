@@ -11,13 +11,13 @@ import java.util.Optional;
 @Mapper(componentModel = "spring")
 public interface OffsetDateTimeMapper {
 
-    DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Named("mapOffsetDateTimeToString")
     default String mapOffsetDateTimeToString(OffsetDateTime offsetDateTime) {
         return Optional.ofNullable(offsetDateTime)
-                .map(odt -> offsetDateTime.atZoneSameInstant(ZoneOffset.UTC))
-                .map(odt -> odt.format(DATE_FORMATTER))
-                .orElse(null);
+            .map(odt -> offsetDateTime.atZoneSameInstant(ZoneOffset.UTC))
+            .map(odt -> odt.format(DATE_FORMAT))
+            .orElse(null);
     }
 }

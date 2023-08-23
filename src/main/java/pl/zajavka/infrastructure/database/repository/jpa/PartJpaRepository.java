@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface PartJpaRepository extends JpaRepository<PartEntity, Integer> {
-    Optional<PartEntity> findBySerialNumber(String partSerialNumber);
+
+    Optional<PartEntity> findBySerialNumber(String serialNumber);
 }

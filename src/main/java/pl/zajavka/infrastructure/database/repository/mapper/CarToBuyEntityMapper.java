@@ -6,7 +6,7 @@ import org.mapstruct.ReportingPolicy;
 import pl.zajavka.domain.CarToBuy;
 import pl.zajavka.infrastructure.database.entity.CarToBuyEntity;
 
-@Mapper(componentModel = "spring") //, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CarToBuyEntityMapper {
 
     @Mapping(target = "invoice", ignore = true)

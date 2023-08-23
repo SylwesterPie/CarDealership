@@ -1,5 +1,6 @@
 package pl.zajavka.api.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,12 +19,13 @@ import pl.zajavka.domain.Invoice;
 import pl.zajavka.domain.Salesman;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
 public class PurchaseController {
 
-    public static final String PURCHASE = "/purchase";
+    static final String PURCHASE = "/purchase";
 
     private final CarPurchaseService carPurchaseService;
     private final CarPurchaseMapper carPurchaseMapper;
@@ -32,43 +34,37 @@ public class PurchaseController {
     @GetMapping(value = PURCHASE)
     public ModelAndView carPurchasePage() {
         Map<String, ?> model = prepareCarPurchaseData();
-
         return new ModelAndView("car_purchase", model);
     }
 
     private Map<String, ?> prepareCarPurchaseData() {
         var availableCars = carPurchaseService.availableCars().stream()
-                .map(carMapper::mapToDTO)
-                .toList();
+            .map(carMapper::map)
+            .toList();
         var availableCarVins = availableCars.stream()
-                .map(CarToBuyDTO::getVin)
-                .toList();
+            .map(CarToBuyDTO::getVin)
+            .toList();
         var availableSalesmanPesels = carPurchaseService.availableSalesmen().stream()
-                .map(Salesman::getPesel)
-                .toList();
+            .map(Salesman::getPesel)
+            .toList();
         return Map.of(
-                "availableCarDTOs", availableCars,
-                "availableCarVins", availableCarVins,
-                "availableSalesmanPesels", availableSalesmanPesels,
-                "carPurchaseDTO", CarPurchaseDTO.buildDefaultData()
+            "availableCarDTOs", availableCars,
+            "availableCarVins", availableCarVins,
+            "availableSalesmanPesels", availableSalesmanPesels,
+            "carPurchaseDTO", CarPurchaseDTO.buildDefaultData()
         );
     }
 
     @PostMapping(value = PURCHASE)
     public String makePurchase(
-            @ModelAttribute() CarPurchaseDTO carPurchaseDTO,
-            BindingResult result,
-            ModelMap model
+        @Valid @ModelAttribute("carPurchaseDTO") CarPurchaseDTO carPurchaseDTO,
+        ModelMap model
     ) {
-        if(result.hasErrors()) {
-            return "error";
-        }
-
-        CarPurchaseRequest request = carPurchaseMapper.mapFromDTO(carPurchaseDTO);
+        CarPurchaseRequest request = carPurchaseMapper.map(carPurchaseDTO);
         Invoice invoice = carPurchaseService.purchase(request);
 
-        if (!carPurchaseDTO.getExistingCustomerEmail().isBlank()){
-            model.addAttribute("customerEmail", carPurchaseDTO.getExistingCustomerEmail());
+        if (existingCustomerEmailExists(carPurchaseDTO.getExistingCustomerEmail())) {
+            model.addAttribute("existingCustomerEmail", carPurchaseDTO.getExistingCustomerEmail());
         } else {
             model.addAttribute("customerName", carPurchaseDTO.getCustomerName());
             model.addAttribute("customerSurname", carPurchaseDTO.getCustomerSurname());
@@ -77,5 +73,9 @@ public class PurchaseController {
         model.addAttribute("invoiceNumber", invoice.getInvoiceNumber());
 
         return "car_purchase_done";
+    }
+
+    private boolean existingCustomerEmailExists(String email) {
+        return Objects.nonNull(email) && !email.isBlank();
     }
 }

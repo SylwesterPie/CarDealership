@@ -1,53 +1,65 @@
 package pl.zajavka.infrastructure.database.entity;
-import jakarta.persistence.*;
-import lombok.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
 
-@Entity
-@Table(name = "car_service_request")
 @Getter
 @Setter
+@EqualsAndHashCode(of = "carServiceRequestId")
+@ToString(of = {"carServiceRequestId", "carServiceRequestNumber", "receivedDateTime", "completedDateTime", "customerComment"})
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@EqualsAndHashCode(of = "carServiceRequestId")
-@ToString(of = {
-        "carServiceRequestId", "carServiceRequestNumber",
-        "receivedDateTime", "completedDateTime", "customerComment"
-}
-)
+@Entity
+@Table(name = "car_service_request")
 public class CarServiceRequestEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_service_request_id")
     private Integer carServiceRequestId;
 
-    @Column(name = "car_service_request_number", nullable = false, unique = true)
+    @Column(name = "car_service_request_number", unique = true)
     private String carServiceRequestNumber;
 
-    @Column(name = "received_date_time", nullable = false)
+    @Column(name = "received_date_time")
     private OffsetDateTime receivedDateTime;
 
     @Column(name = "completed_date_time")
     private OffsetDateTime completedDateTime;
 
-    @Column(name = "customer_comment", columnDefinition = "TEXT")
+    @Column(name = "customer_comment")
     private String customerComment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_to_service_id", nullable = false)
+    @JoinColumn(name = "car_to_service_id")
     private CarToServiceEntity car;
 
-    @OneToMany(mappedBy = "carServiceRequest", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "carServiceRequest")
     private Set<ServiceMechanicEntity> serviceMechanics;
 
-    @OneToMany(mappedBy = "carServiceRequest", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "carServiceRequest")
     private Set<ServicePartEntity> serviceParts;
-
 }

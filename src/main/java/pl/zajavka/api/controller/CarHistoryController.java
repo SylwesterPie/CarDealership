@@ -17,17 +17,17 @@ import java.util.Objects;
 @AllArgsConstructor
 public class CarHistoryController {
 
-    public static final String CAR_HISTORY = "/car/history";
+    private static final String CAR_HISTORY = "/car/history";
 
     private final CarService carService;
     private final CarMapper carMapper;
 
     @GetMapping(value = CAR_HISTORY)
     public String carHistory(
-            @RequestParam(value = "carVin", required = false) String carVin,
-            Model model
+        @RequestParam(value = "carVin", required = false) String carVin,
+        Model model
     ) {
-        var allCars = carService.findAllCarsWithHistory().stream().map(carMapper::mapToDTO).toList();
+        var allCars = carService.findAllCarsWithHistory().stream().map(carMapper::map).toList();
         var allCarVins = allCars.stream().map(CarToServiceDTO::getVin).toList();
 
         model.addAttribute("allCarDTOs", allCars);
@@ -35,7 +35,7 @@ public class CarHistoryController {
 
         if (Objects.nonNull(carVin)) {
             CarHistory carHistory = carService.findCarHistoryByVin(carVin);
-            model.addAttribute("carHistoryDTO", carMapper.mapToDTO(carHistory));
+            model.addAttribute("carHistoryDTO", carMapper.map(carHistory));
         } else {
             model.addAttribute("carHistoryDTO", CarHistoryDTO.buildDefault());
         }

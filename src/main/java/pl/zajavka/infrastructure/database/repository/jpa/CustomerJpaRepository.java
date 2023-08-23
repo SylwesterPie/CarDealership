@@ -7,7 +7,7 @@ import pl.zajavka.infrastructure.database.entity.CustomerEntity;
 import java.util.Optional;
 
 @Repository
-public interface CustomerJpaRepository  extends JpaRepository<CustomerEntity, Integer> {
+public interface CustomerJpaRepository extends JpaRepository<CustomerEntity, Integer> {
 
     Optional<CustomerEntity> findByEmail(String email);
 }

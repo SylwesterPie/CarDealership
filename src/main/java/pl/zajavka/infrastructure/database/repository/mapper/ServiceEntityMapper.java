@@ -6,7 +6,6 @@ import org.mapstruct.ReportingPolicy;
 import pl.zajavka.domain.Service;
 import pl.zajavka.infrastructure.database.entity.ServiceEntity;
 
-
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ServiceEntityMapper {
 

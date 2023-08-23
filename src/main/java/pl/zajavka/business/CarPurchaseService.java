@@ -3,15 +3,21 @@ package pl.zajavka.business;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.zajavka.domain.*;
+import pl.zajavka.domain.Address;
+import pl.zajavka.domain.CarPurchaseRequest;
+import pl.zajavka.domain.CarToBuy;
+import pl.zajavka.domain.Customer;
+import pl.zajavka.domain.Invoice;
+import pl.zajavka.domain.Salesman;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class CarPurchaseService {
 
     private final CarService carService;
@@ -19,19 +25,18 @@ public class CarPurchaseService {
     private final CustomerService customerService;
 
     public List<CarToBuy> availableCars() {
-        return carService.findAvailableCar();
+        return carService.findAvailableCars();
     }
 
     public List<Salesman> availableSalesmen() {
-        return salesmanService.findAvailableSalesman();
+        return salesmanService.findAvailable();
     }
-
 
     @Transactional
     public Invoice purchase(final CarPurchaseRequest request) {
         return request.getExistingCustomerEmail().isBlank()
-        ? processFirstTimeToBuyCustomer(request)
-        : processNextTimeToBuyCustomer(request);
+            ? processFirstTimeToBuyCustomer(request)
+            : processNextTimeToBuyCustomer(request);
     }
 
     private Invoice processFirstTimeToBuyCustomer(CarPurchaseRequest request) {
@@ -55,31 +60,28 @@ public class CarPurchaseService {
         return invoice;
     }
 
-
-
-    @Transactional
-    private Invoice buildInvoice(CarToBuy car, Salesman salesman) {
-        return Invoice.builder()
-                .invoiceNumber(UUID.randomUUID().toString())
-                .dateTime(OffsetDateTime.now())
-                .car(car)
-                .salesman(salesman)
-                .build();
-    }
-
     private Customer buildCustomer(CarPurchaseRequest inputData, Invoice invoice) {
         return Customer.builder()
-                .name(inputData.getCustomerName())
-                .surname(inputData.getCustomerSurname())
-                .phone(inputData.getCustomerPhone())
-                .email(inputData.getCustomerEmail())
-                .address(Address.builder()
-                        .country(inputData.getCustomerAddressCountry())
-                        .city(inputData.getCustomerAddressCity())
-                        .postalCode(inputData.getCustomerAddressPostalCode())
-                        .address(inputData.getCustomerAddressStreet())
-                        .build())
-                .invoices(Set.of(invoice))
-                .build();
+            .name(inputData.getCustomerName())
+            .surname(inputData.getCustomerSurname())
+            .phone(inputData.getCustomerPhone())
+            .email(inputData.getCustomerEmail())
+            .address(Address.builder()
+                .country(inputData.getCustomerAddressCountry())
+                .city(inputData.getCustomerAddressCity())
+                .postalCode(inputData.getCustomerAddressPostalCode())
+                .address(inputData.getCustomerAddressStreet())
+                .build())
+            .invoices(Set.of(invoice))
+            .build();
+    }
+
+    private Invoice buildInvoice(CarToBuy car, Salesman salesman) {
+        return Invoice.builder()
+            .invoiceNumber(UUID.randomUUID().toString())
+            .dateTime(OffsetDateTime.of(2025, 10, 1, 12, 0, 0, 0, ZoneOffset.UTC))
+            .car(car)
+            .salesman(salesman)
+            .build();
     }
 }

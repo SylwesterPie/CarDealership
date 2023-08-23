@@ -7,5 +7,5 @@ import pl.zajavka.domain.Service;
 @Mapper(componentModel = "spring")
 public interface ServiceMapper {
 
-    ServiceDTO mapToDTO(Service part);
+    ServiceDTO map(Service service);
 }

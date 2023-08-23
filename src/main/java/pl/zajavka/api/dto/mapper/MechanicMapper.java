@@ -7,5 +7,5 @@ import pl.zajavka.domain.Mechanic;
 @Mapper(componentModel = "spring")
 public interface MechanicMapper {
 
-    MechanicDTO mapToDTO(Mechanic mechanic);
+    MechanicDTO map(final Mechanic mechanic);
 }

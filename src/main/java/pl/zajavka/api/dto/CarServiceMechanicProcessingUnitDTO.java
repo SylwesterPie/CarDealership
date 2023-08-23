@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class CarServiceMechanicProcessingUnitDTO {
 
     private String mechanicPesel;
@@ -22,10 +22,10 @@ public class CarServiceMechanicProcessingUnitDTO {
 
     public static CarServiceMechanicProcessingUnitDTO buildDefault() {
         return CarServiceMechanicProcessingUnitDTO.builder()
-                .partQuantity(9)
-                .hours(1)
-                .mechanicComment("uff, tough")
-                .done(false)
-                .build();
+            .partQuantity(9)
+            .hours(1)
+            .mechanicComment("Uff, tough")
+            .done(false)
+            .build();
     }
 }

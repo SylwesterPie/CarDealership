@@ -13,20 +13,24 @@ import pl.zajavka.domain.CarToService;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface CarMapper extends OffsetDateTimeMapper{
-    CarToBuyDTO mapToDTO(CarToBuy car);
+public interface CarMapper extends OffsetDateTimeMapper {
 
-    CarToServiceDTO mapToDTO(final CarToService carToService);
+    CarToBuyDTO map(final CarToBuy car);
 
-    @Mapping(source = "carServiceRequest", target = "carServiceRequest", qualifiedByName = "mapServiceRequest")
-    CarHistoryDTO mapToDTO(CarHistory carHistory);
+    CarToServiceDTO map(final CarToService car);
 
-    @Named("mapServiceRequest")
-    default List<CarHistoryDTO.ServiceRequestDTO> mapServiceRequest(List<CarHistory.CarServiceRequest> request){
-        return request.stream().map(this::mapServiceRequest).toList();
+    @Mapping(source = "carServiceRequests", target = "carServiceRequests", qualifiedByName = "mapServiceRequests")
+    CarHistoryDTO map(CarHistory carHistory);
+
+    @SuppressWarnings("unused")
+    @Named("mapServiceRequests")
+    default List<CarHistoryDTO.ServiceRequestDTO> mapServiceRequests(
+        List<CarHistory.CarServiceRequest> requests
+    ) {
+        return requests.stream().map(this::mapServiceRequest).toList();
     }
 
-    @Mapping(source = "receivedDataTime", target = "receivedDataTime", qualifiedByName = "mapOffsetDateTimeToString")
-    @Mapping(source = "completedDataTime", target = "completedDateTime", qualifiedByName = "mapOffsetDateTimeToString")
+    @Mapping(source = "receivedDateTime", target = "receivedDateTime", qualifiedByName = "mapOffsetDateTimeToString")
+    @Mapping(source = "completedDateTime", target = "completedDateTime", qualifiedByName = "mapOffsetDateTimeToString")
     CarHistoryDTO.ServiceRequestDTO mapServiceRequest(CarHistory.CarServiceRequest carServiceRequest);
 }

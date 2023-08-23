@@ -1,6 +1,10 @@
 package pl.zajavka.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.Value;
+import lombok.With;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -9,11 +13,7 @@ import java.util.Set;
 @Value
 @Builder
 @EqualsAndHashCode(of = "carServiceRequestNumber")
-@ToString(of = {
-        "carServiceRequestId", "carServiceRequestNumber",
-        "receivedDateTime", "completedDateTime", "customerComment"
-}
-)
+@ToString(of = {"carServiceRequestId", "carServiceRequestNumber", "receivedDateTime", "completedDateTime", "customerComment"})
 public class CarServiceRequest {
 
     Integer carServiceRequestId;
@@ -25,5 +25,4 @@ public class CarServiceRequest {
     CarToService car;
     Set<ServiceMechanic> serviceMechanics;
     Set<ServicePart> serviceParts;
-
 }

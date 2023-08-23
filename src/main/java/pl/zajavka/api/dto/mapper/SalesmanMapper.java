@@ -7,5 +7,5 @@ import pl.zajavka.domain.Salesman;
 @Mapper(componentModel = "spring")
 public interface SalesmanMapper {
 
-    SalesmanDTO mapToDTO(Salesman salesman);
+    SalesmanDTO map(final Salesman salesman);
 }

@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pl.zajavka.api.dto.*;
+import pl.zajavka.api.dto.CarServiceMechanicProcessingUnitDTO;
+import pl.zajavka.api.dto.CarServiceRequestDTO;
+import pl.zajavka.api.dto.MechanicDTO;
+import pl.zajavka.api.dto.PartDTO;
+import pl.zajavka.api.dto.ServiceDTO;
 import pl.zajavka.api.dto.mapper.CarServiceRequestMapper;
 import pl.zajavka.api.dto.mapper.MechanicMapper;
 import pl.zajavka.api.dto.mapper.PartMapper;
@@ -47,83 +51,76 @@ public class MechanicController {
     }
 
     private Map<String, ?> prepareNecessaryData() {
-        var availableServiceRequest = getAvailableServiceRequest();
-        var availableCarVins = availableServiceRequest.stream()
-                .map(CarServiceRequestDTO::getCarVin)
-                .toList();
-        var availableMechanics =  getAvailableMechanics();
-        var availableMechanicPesels = availableMechanics.stream()
-                .map(MechanicDTO::getPesel)
-                .toList();
+        var availableServiceRequests = getAvailableServiceRequests();
+        var availableCarVins = availableServiceRequests.stream().map(CarServiceRequestDTO::getCarVin).toList();
+        var availableMechanics = getAvailableMechanics();
+        var availableMechanicPesels = availableMechanics.stream().map(MechanicDTO::getPesel).toList();
         var parts = findParts();
-        var services = findService();
+        var services = findServices();
         var partSerialNumbers = preparePartSerialNumbers(parts);
         var serviceCodes = services.stream().map(ServiceDTO::getServiceCode).toList();
 
         return Map.of(
-                "availableServiceRequestDTOs", availableServiceRequest,
-                "availableCarVins", availableCarVins,
-                "availableMechanicDTOs", availableMechanics,
-                "availableMechanicPesels", availableMechanicPesels,
-                "partDTOs", parts,
-                "partSerialNumbers", partSerialNumbers,
-                "serviceDTOs", services,
-                "serviceCodes", serviceCodes,
-                "carServiceProcessDTO", CarServiceMechanicProcessingUnitDTO.buildDefault()
+            "availableServiceRequestDTOs", availableServiceRequests,
+            "availableCarVins", availableCarVins,
+            "availableMechanicDTOs", availableMechanics,
+            "availableMechanicPesels", availableMechanicPesels,
+            "partDTOs", parts,
+            "partSerialNumbers", partSerialNumbers,
+            "serviceDTOs", services,
+            "serviceCodes", serviceCodes,
+            "carServiceProcessDTO", CarServiceMechanicProcessingUnitDTO.buildDefault()
         );
     }
 
     @PostMapping(value = MECHANIC_WORK_UNIT)
-    public String mechanicWorkUnite(
-            @ModelAttribute("carServiceRequestProcessDTO") CarServiceMechanicProcessingUnitDTO dto,
-            BindingResult result,
-            ModelMap modelMap
+    public String mechanicWorkUnit(
+        @ModelAttribute("carServiceRequestProcessDTO") CarServiceMechanicProcessingUnitDTO dto,
+        BindingResult bindingResult,
+        ModelMap modelMap
     ) {
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "error";
         }
-
-        CarServiceProcessingRequest request = carServiceRequestMapper.mapFromDTO(dto);
+        CarServiceProcessingRequest request = carServiceRequestMapper.map(dto);
         carServiceProcessingService.process(request);
         if (dto.getDone()) {
             return "mechanic_service_done";
         } else {
             modelMap.addAllAttributes(prepareNecessaryData());
-            return "mechanic_service";
+            return "redirect:/mechanic";
         }
     }
 
-    private List<CarServiceRequestDTO> getAvailableServiceRequest() {
-        return carServiceRequestService.availableServiceRequest().stream()
-                .map(carServiceRequestMapper::mapToDTO)
-                .toList();
+    private List<CarServiceRequestDTO> getAvailableServiceRequests() {
+        return carServiceRequestService.availableServiceRequests().stream()
+            .map(carServiceRequestMapper::map)
+            .toList();
     }
 
     private List<MechanicDTO> getAvailableMechanics() {
         return carServiceRequestService.availableMechanics().stream()
-                .map(mechanicMapper::mapToDTO)
-                .toList();
+            .map(mechanicMapper::map)
+            .toList();
     }
 
     private List<PartDTO> findParts() {
         return partCatalogService.findAll().stream()
-                .map(partMapper::mapToDTO)
-                .toList();
+            .map(partMapper::map)
+            .toList();
     }
 
-    private List<ServiceDTO> findService() {
+    private List<ServiceDTO> findServices() {
         return serviceCatalogService.findAll().stream()
-                .map(serviceMapper::mapToDTO)
-                .toList();
+            .map(serviceMapper::map)
+            .toList();
     }
-
 
     private List<String> preparePartSerialNumbers(List<PartDTO> parts) {
-        List<String> partSerialNumber = new ArrayList<>(
-                parts.stream().map(PartDTO::getSerialNumber)
-                .toList()
-        );
-        partSerialNumber.add(Part.NONE);
-        return partSerialNumber;
+        List<String> partSerialNumbers = new ArrayList<>(parts.stream()
+            .map(PartDTO::getSerialNumber)
+            .toList());
+        partSerialNumbers.add(Part.NONE);
+        return partSerialNumbers;
     }
 }

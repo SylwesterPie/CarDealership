@@ -1,6 +1,5 @@
 package pl.zajavka.domain;
 
-
 import lombok.Builder;
 import lombok.ToString;
 import lombok.Value;
@@ -12,18 +11,17 @@ import java.util.List;
 @Builder
 @ToString(of = "carVin")
 public class CarHistory {
-    String carVin;
-    List<CarServiceRequest> carServiceRequest;
 
+    String carVin;
+    List<CarServiceRequest> carServiceRequests;
 
     @Value
     @Builder
-    @ToString(of = {"carServiceRequestNumber", "receivedDataTime", "completedDataTime", "customerComment"})
+    @ToString(of = {"carServiceRequestNumber", "receivedDateTime", "completedDateTime", "customerComment"})
     public static class CarServiceRequest {
-
         String carServiceRequestNumber;
-        OffsetDateTime receivedDataTime;
-        OffsetDateTime completedDataTime;
+        OffsetDateTime receivedDateTime;
+        OffsetDateTime completedDateTime;
         String customerComment;
         List<Service> services;
         List<Part> parts;

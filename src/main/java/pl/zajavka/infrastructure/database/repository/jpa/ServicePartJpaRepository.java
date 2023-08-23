@@ -7,5 +7,4 @@ import pl.zajavka.infrastructure.database.entity.ServicePartEntity;
 @Repository
 public interface ServicePartJpaRepository extends JpaRepository<ServicePartEntity, Integer> {
 
-
 }

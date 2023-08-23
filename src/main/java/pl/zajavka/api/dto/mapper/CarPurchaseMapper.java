@@ -7,5 +7,5 @@ import pl.zajavka.domain.CarPurchaseRequest;
 @Mapper(componentModel = "spring")
 public interface CarPurchaseMapper {
 
-    CarPurchaseRequest mapFromDTO(final CarPurchaseDTO carPurchaseDTO);
+     CarPurchaseRequest map(final CarPurchaseDTO dto);
 }

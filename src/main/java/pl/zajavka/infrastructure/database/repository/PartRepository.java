@@ -10,21 +10,24 @@ import pl.zajavka.infrastructure.database.repository.mapper.PartEntityMapper;
 import java.util.List;
 import java.util.Optional;
 
+
 @Repository
 @AllArgsConstructor
 public class PartRepository implements PartDAO {
 
     private final PartJpaRepository partJpaRepository;
-    private final PartEntityMapper partEntityMapper;
-
-    @Override
-    public Optional<Part> findPartBySerialNumber(String partSerialNumber) {
-        return partJpaRepository.findBySerialNumber(partSerialNumber)
-                .map(partEntityMapper::mapFromEntity);
-    }
+    private final PartEntityMapper mapper;
 
     @Override
     public List<Part> findAll() {
-        return partJpaRepository.findAll().stream().map(partEntityMapper::mapFromEntity).toList();
+        return partJpaRepository.findAll().stream()
+            .map(mapper::mapFromEntity)
+            .toList();
+    }
+
+    @Override
+    public Optional<Part> findBySerialNumber(String serialNumber) {
+        return partJpaRepository.findBySerialNumber(serialNumber)
+            .map(mapper::mapFromEntity);
     }
 }

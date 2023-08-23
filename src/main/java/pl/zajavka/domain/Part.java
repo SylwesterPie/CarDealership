@@ -1,6 +1,10 @@
 package pl.zajavka.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.Value;
+import lombok.With;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -13,6 +17,7 @@ import java.util.Set;
 public class Part {
 
     public static final String NONE = "NONE";
+
     Integer partId;
     String serialNumber;
     String description;

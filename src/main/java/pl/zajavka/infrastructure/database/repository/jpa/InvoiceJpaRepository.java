@@ -7,4 +7,5 @@ import pl.zajavka.infrastructure.database.entity.InvoiceEntity;
 @Repository
 public interface InvoiceJpaRepository extends JpaRepository<InvoiceEntity, Integer> {
 
+
 }

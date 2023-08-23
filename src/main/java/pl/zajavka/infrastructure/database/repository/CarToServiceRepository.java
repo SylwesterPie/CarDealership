@@ -12,6 +12,7 @@ import pl.zajavka.infrastructure.database.repository.mapper.CarToServiceEntityMa
 import java.util.List;
 import java.util.Optional;
 
+
 @Repository
 @AllArgsConstructor
 public class CarToServiceRepository implements CarToServiceDAO {
@@ -19,30 +20,29 @@ public class CarToServiceRepository implements CarToServiceDAO {
     private final CarToServiceJpaRepository carToServiceJpaRepository;
     private final CarToServiceEntityMapper carToServiceEntityMapper;
 
-
     @Override
     public List<CarToService> findAll() {
         return carToServiceJpaRepository.findAll().stream()
-                .map(carToServiceEntityMapper::mapFromEntity)
-                .toList();
+            .map(carToServiceEntityMapper::mapFromEntity)
+            .toList();
     }
 
     @Override
     public Optional<CarToService> findCarToServiceByVin(String vin) {
-        return carToServiceJpaRepository.findByVin(vin)
-                .map(carToServiceEntityMapper::mapFromEntity);
+        return carToServiceJpaRepository.findOptionalByVin(vin)
+            .map(carToServiceEntityMapper::mapFromEntity);
     }
 
     @Override
-    public CarToService saveCarToService(CarToService carToService) {
-        CarToServiceEntity toSave = carToServiceEntityMapper.mapToEntity(carToService);
-        CarToServiceEntity save = carToServiceJpaRepository.saveAndFlush(toSave);
-        return carToServiceEntityMapper.mapFromEntity(save);
+    public CarToService saveCarToService(CarToService car) {
+        CarToServiceEntity toSave = carToServiceEntityMapper.mapToEntity(car);
+        CarToServiceEntity saved = carToServiceJpaRepository.save(toSave);
+        return carToServiceEntityMapper.mapFromEntity(saved);
     }
 
     @Override
     public CarHistory findCarHistoryByVin(String vin) {
-        CarToServiceEntity carHistoryByVin = carToServiceJpaRepository.findCarHistoryByVin(vin);
-        return carToServiceEntityMapper.mapFromEntity(vin, carHistoryByVin);
+        CarToServiceEntity entity = carToServiceJpaRepository.findByVin(vin);
+        return carToServiceEntityMapper.mapFromEntity(vin, entity);
     }
 }

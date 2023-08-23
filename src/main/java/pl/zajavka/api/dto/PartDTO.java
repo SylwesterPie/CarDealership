@@ -9,10 +9,9 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class PartDTO {
-
     private String serialNumber;
     private String description;
     private BigDecimal price;

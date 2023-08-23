@@ -8,6 +8,7 @@ import pl.zajavka.infrastructure.database.entity.MechanicEntity;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MechanicEntityMapper {
+
     @Mapping(target = "serviceMechanics", ignore = true)
-    Mechanic mapFromEntity(MechanicEntity mechanicEntity);
+    Mechanic mapFromEntity(MechanicEntity entity);
 }

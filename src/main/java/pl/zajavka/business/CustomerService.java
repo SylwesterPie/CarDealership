@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.CustomerDAO;
 import pl.zajavka.domain.Customer;
+import pl.zajavka.domain.exception.NotFoundException;
 
 import java.util.Optional;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class CustomerService {
 
     private final CustomerDAO customerDAO;
@@ -17,13 +18,13 @@ public class CustomerService {
     @Transactional
     public void issueInvoice(Customer customer) {
         customerDAO.issueInvoice(customer);
-
     }
 
+    @Transactional
     public Customer findCustomer(String email) {
-        Optional<Customer> customer = customerDAO.findCustomerByEmail(email);
+        Optional<Customer> customer = customerDAO.findByEmail(email);
         if (customer.isEmpty()) {
-            throw new RuntimeException("Could not find Customer by email: [%s]".formatted(email));
+            throw new NotFoundException("Could not find customer by email: [%s]".formatted(email));
         }
         return customer.get();
     }

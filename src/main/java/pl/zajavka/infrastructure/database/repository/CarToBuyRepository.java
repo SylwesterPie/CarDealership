@@ -20,15 +20,13 @@ public class CarToBuyRepository implements CarToBuyDAO {
     @Override
     public List<CarToBuy> findAvailable() {
         return carToBuyJpaRepository.findAvailableCars().stream()
-                .map(carToBuyEntityMapper::mapFromEntity)
-                .toList();
+            .map(carToBuyEntityMapper::mapFromEntity)
+            .toList();
     }
 
     @Override
     public Optional<CarToBuy> findCarToBuyByVin(String vin) {
         return carToBuyJpaRepository.findByVin(vin)
-                .map(carToBuyEntityMapper::mapFromEntity);
+            .map(carToBuyEntityMapper::mapFromEntity);
     }
-
-
 }
