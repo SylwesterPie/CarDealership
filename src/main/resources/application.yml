@@ -7,9 +7,14 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/car_dealership
-    username: postgres
-    password: postgres
+#    Work
+    url: jdbc:postgresql://192.168.200.199:5432/pietakiewicz
+    username: pietakiewicz_usr
+    password: pietakiewicz@pg$ql8
+#    Home
+#    url: jdbc:postgresql://localhost:5432/car_dealership
+#    username: postgres
+#    password: postgres
     hikari:
       idle-timeout: 10000
       connectionTimeout: 20000
