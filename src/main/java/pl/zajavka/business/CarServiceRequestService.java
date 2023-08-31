@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.CarServiceRequestDAO;
-import pl.zajavka.domain.CarServiceRequest;
-import pl.zajavka.domain.CarToBuy;
-import pl.zajavka.domain.CarToService;
-import pl.zajavka.domain.Customer;
-import pl.zajavka.domain.Mechanic;
+import pl.zajavka.domain.*;
 import pl.zajavka.domain.exception.NotFoundException;
 import pl.zajavka.domain.exception.ProcessingException;
 

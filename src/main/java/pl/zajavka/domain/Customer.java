@@ -1,10 +1,6 @@
 package pl.zajavka.domain;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.Value;
-import lombok.With;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Objects;

@@ -10,7 +10,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import pl.zajavka.integration.configuration.AbstractIT;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class HomeControllerIT extends AbstractIT {
+public class MechanicControllerIT extends AbstractIT {
 
     @LocalServerPort
     private int port;
@@ -22,9 +22,9 @@ public class HomeControllerIT extends AbstractIT {
 
     @Test
     void homePageWorksCorrectly() {
-        String url = String.format("http://localhost:%s%s", port, basePath);
+        String url = String.format("http://localhost:%s%s/mechanic", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);
-        Assertions.assertThat(page).contains("Zajavka Car Dealer!");
+        Assertions.assertThat(page).contains("Check the following service requests and work on them!");
     }
 }

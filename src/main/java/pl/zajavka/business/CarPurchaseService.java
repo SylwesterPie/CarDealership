@@ -3,12 +3,7 @@ package pl.zajavka.business;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.zajavka.domain.Address;
-import pl.zajavka.domain.CarPurchaseRequest;
-import pl.zajavka.domain.CarToBuy;
-import pl.zajavka.domain.Customer;
-import pl.zajavka.domain.Invoice;
-import pl.zajavka.domain.Salesman;
+import pl.zajavka.domain.*;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

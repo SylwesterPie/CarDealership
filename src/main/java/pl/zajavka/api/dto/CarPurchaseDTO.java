@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-import static java.util.Optional.*;
+import static java.util.Optional.ofNullable;
 
 @Data
 @Builder

@@ -3,13 +3,7 @@ package pl.zajavka.business;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import pl.zajavka.business.dao.ServiceRequestProcessingDAO;
-import pl.zajavka.domain.CarServiceProcessingRequest;
-import pl.zajavka.domain.CarServiceRequest;
-import pl.zajavka.domain.Mechanic;
-import pl.zajavka.domain.Part;
-import pl.zajavka.domain.Service;
-import pl.zajavka.domain.ServiceMechanic;
-import pl.zajavka.domain.ServicePart;
+import pl.zajavka.domain.*;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

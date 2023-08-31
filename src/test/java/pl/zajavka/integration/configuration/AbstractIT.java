@@ -14,8 +14,4 @@ import pl.zajavka.CarDealershipApplication;
 )
 public class AbstractIT {
 
-    @AfterEach
-    void afterEach() {
-
-    }
 }
